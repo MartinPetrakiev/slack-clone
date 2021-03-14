@@ -1,6 +1,8 @@
 import './App.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import Routes from './routes';
+import 'semantic-ui-css/semantic.min.css';
+import registerService from './registerServiceWorker';
 
 const client = new ApolloClient({
   uri: 'http://localhost:8080/graphql',
