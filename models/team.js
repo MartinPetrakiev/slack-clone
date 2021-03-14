@@ -8,9 +8,6 @@ export function Team(sequelize) {
             type: DataTypes.STRING,
             unique: true,
         }
-    },
-    {
-        underscored: true,
     });
     return Team;
 };

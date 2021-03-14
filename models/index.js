@@ -3,6 +3,9 @@ import { applyExtraSetup } from './extra-setup';
 
 const sequelize = new Sequelize('slack', 'postgres', 'HowdySir1!', {
     dialect: 'postgres',
+	define: {
+		underscored: true,
+	}
 });
 
 const modelDefiners = [

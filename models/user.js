@@ -15,9 +15,6 @@ export function User(sequelize) {
         password: {
             type: DataTypes.STRING,
         },
-    },
-    {
-        underscored: true,
     });
     return User;
 };

@@ -10,9 +10,6 @@ export function Channel(sequelize) {
         public: {
             type: DataTypes.BOOLEAN,
         }
-    },
-    {
-        underscored: true,
     });
     return Channel;
 };

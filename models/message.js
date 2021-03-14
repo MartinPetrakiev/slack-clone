@@ -7,9 +7,6 @@ export function Message(sequelize) {
         text: {
             type: DataTypes.STRING,
         },
-    },
-    {
-        underscored: true,
     });
     return Message;
 };

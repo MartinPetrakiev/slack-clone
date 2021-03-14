@@ -1,13 +1,15 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
-
-import typeDefs from './schema';
-import resolvers from './resolvers';
+import path from 'path';
+import { loadFilesSync } from '@graphql-tools/load-files';
+import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import sequelize from './models/index';
-import models from './models';
 
 const PORT = 8080;
+
+const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, './types')));
+const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname, './resolvers')));
 
 const schema = makeExecutableSchema({
   typeDefs,
@@ -15,16 +17,23 @@ const schema = makeExecutableSchema({
 });
 
 const app = express();
-const path = '/graphql';
-
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app, path });
+const pathUri = '/graphql';
+const models = sequelize.models;
+console.log(models);
+const server = new ApolloServer({
+  schema, context: {
+    models,
+    user: {
+      id: 1
+    }
+  }
+});
+server.applyMiddleware({ app, pathUri });
 
 async function assertDatabaseConnectionOk() {
   console.log(`Checking database connection...`);
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
     console.log('Database connection OK!');
   } catch (error) {
     console.log('Unable to connect to the database:');
@@ -36,6 +45,7 @@ async function assertDatabaseConnectionOk() {
 async function init() {
   await assertDatabaseConnectionOk();
   console.log(`Starting Sequelize + Express example on port ${PORT}...`);
+  await sequelize.sync();
   console.log("All models were synchronized successfully.");
   app.listen(PORT, () =>
     console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`)
