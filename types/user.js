@@ -6,6 +6,10 @@ export default `
         teams: [Team!]!
       }
 
+      type AuthPayload {
+        token: String
+        user: User
+      }
       
       type Query {
         getUser(id: Int!): User!
@@ -13,7 +17,7 @@ export default `
       }
 
       type Mutation {
-        register(username: String!, email: String!, password: String!): Boolean!
+        register(username: String!, email: String!, password: String!): AuthPayload
       }
 `;
 

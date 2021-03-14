@@ -9,7 +9,7 @@ export default {
             try {
                 const hash = bcrypt.hashSync(password, 10);
                 const user = await models.user.create({ ...otherArgs, password: hash });
-                return true;
+                return user;
             } catch (err) {
                 console.log(err);
                 return false;
