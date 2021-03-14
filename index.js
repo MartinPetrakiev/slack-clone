@@ -5,8 +5,18 @@ import path from 'path';
 import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import sequelize from './models/index';
+import cors from 'cors';
 
 const PORT = 8080;
+
+
+const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, './types')));
 const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname, './resolvers')));
@@ -16,18 +26,18 @@ const schema = makeExecutableSchema({
   resolvers,
 });
 
-const app = express();
 const pathUri = '/graphql';
 const models = sequelize.models;
-console.log(models);
 const server = new ApolloServer({
-  schema, context: {
+  schema, 
+  context: {
     models,
     user: {
       id: 1
     }
-  }
+  },
 });
+
 server.applyMiddleware({ app, pathUri });
 
 async function assertDatabaseConnectionOk() {
