@@ -1,30 +1,59 @@
 import React, { useState } from 'react';
-import { Button, Container, Form, Header, Input } from 'semantic-ui-react';
+import { Button, Container, Form, Header, Message } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 
 const REGISTER_MUTATION = gql`
     mutation($username: String!, $email: String!, $password: String!) {
         register(username: $username, email: $email, password: $password) {
-            token
+            ok
+            errors {
+                path
+                message
+            }
         }
       }
 `;
 
-function Register() {
+function Register(props) {
     const [register] = useMutation(REGISTER_MUTATION);
     const user = {
         username: '',
+        usernameError: '',
         email: '',
-        password: ''
+        emailError: '',
+        password: '',
+        passwordError: '',
     };
 
     const [formState, setformState] = useState(user);
-    const { username, email, password } = formState;
+    const {
+        username,
+        email,
+        password,
+        usernameError,
+        emailError,
+        passwordError
+    } = formState;
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        // setformState({
+        //     usernameError: '',
+        //     emailError: '',
+        //     passwordError: '',
+        // });
+
         try {
             const res = await register({ variables: formState });
+            const { ok, errors } = res.data.register;
+            if (ok) {
+                props.history.push('/');
+            } else {
+                const err = {};
+                errors.forEach(({ path, message }) => {
+                    err[`${path}Error`] = message;
+                });
+                setformState(err);
+            }
             console.log(res);
         } catch (error) {
             console.log(error);
@@ -36,22 +65,35 @@ function Register() {
         setformState(state => ({ ...state, [name]: value }));
     };
 
+    const errorList = [];
+
+    if (usernameError) {
+        errorList.push(usernameError);
+    }
+    if (emailError) {
+        errorList.push(emailError);
+    }
+    if (passwordError) {
+        errorList.push(passwordError);
+    }
+
     return (
         <Container text>
             <Header as='h2'>Register</Header>
-            <Form>
+            <Form error={errorList.length}>
                 <Form.Field>
-                    <label>Username</label>
-                    <Input fluid onChange={handleChange} value={username} placeholder='Username...' name="username" />
+                    <Form.Input error={!!usernameError} fluid label='Username' placeholder='Username...' name="username" value={username} onChange={handleChange} />
                 </Form.Field>
                 <Form.Field>
-                    <label>Email</label>
-                    <Input fluid onChange={handleChange} value={email} placeholder='Email...' name="email" />
+                    <Form.Input error={!!emailError} fluid label='Email' placeholder='Email...' name="email" value={email} onChange={handleChange} />
                 </Form.Field>
                 <Form.Field>
-                    <label>Password</label>
-                    <Input fluid onChange={handleChange} value={password} type="password" placeholder='Password...' name="password" />
+                    <Form.Input error={!!passwordError} fluid label='Password' placeholder='Password...' name="password" type="password" value={password} onChange={handleChange} />
                 </Form.Field>
+                <Message
+                    error
+                    list={errorList}
+                />
                 <Button onClick={onSubmit}>Register</Button>
             </Form>
         </Container>
