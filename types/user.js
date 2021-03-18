@@ -10,6 +10,12 @@ export default `
         token: String
         user: User
       }
+
+      type RegisterResponse {
+        ok: Boolean!
+        user: User
+        errors: [Error!]
+      }
       
       type Query {
         getUser(id: Int!): User!
@@ -17,7 +23,7 @@ export default `
       }
 
       type Mutation {
-        register(username: String!, email: String!, password: String!): AuthPayload
+        register(username: String!, email: String!, password: String!): RegisterResponse
       }
 `;
 
