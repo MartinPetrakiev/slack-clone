@@ -17,17 +17,10 @@ export default {
         allUsers: (parent, args, { models }) => models.user.findAll(),
     },
     Mutation: {
-        login: async(parent, { email, password }, { models, SECRET }) => tryLogin(email, password, models, SECRET),
-        register: async (parent, { password, ...otherArgs }, { models }) => {
+        login: async(parent, { email, password }, { models, SECRET, SECRET2 }) => tryLogin(email, password, models, SECRET, SECRET2),
+        register: async (parent, args, { models }) => {
             try {
-                if (password.length < 5) {
-                    return {
-                        ok: false,
-                        errors: [{ path: 'password', message: 'The password needs to be longer than 5 charachters.' }]
-                    };
-                }
-                const hash = bcrypt.hashSync(password, 10);
-                const user = await models.user.create({ ...otherArgs, password: hash });
+                const user = await models.user.create(args);
                 return {
                     ok: true,
                     user

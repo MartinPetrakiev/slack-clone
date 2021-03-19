@@ -1,4 +1,5 @@
 import { DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt';
 
 // We export a function that defines the model.
 // This function will automatically receive as parameter the Sequelize connection object.
@@ -30,7 +31,21 @@ export function User(sequelize) {
         },
         password: {
             type: DataTypes.STRING,
+            validate: {
+                len: {
+                    args: [5, 100],
+                    msg: "The password needs to be between 5 and 100 charachters."
+                }
+            }
         },
-    });
+    },
+        {
+            hooks: {
+                afterValidate: async (user) => {
+                    const hashedPassword = await bcrypt.hash(user.password, 10);
+                    user.password = hashedPassword;
+                }
+            }
+        });
     return User;
 };
