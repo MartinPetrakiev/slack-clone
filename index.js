@@ -18,6 +18,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+const SECRET = 'asdasgsdgasdasd';
+const SECRET2 = 'asdasgsdgasdasdasdasdasdasdads';
+
 const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, './types')));
 const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname, './resolvers')));
 
@@ -34,7 +37,9 @@ const server = new ApolloServer({
     models,
     user: {
       id: 1
-    }
+    },
+    SECRET,
+    SECRET2
   },
 });
 

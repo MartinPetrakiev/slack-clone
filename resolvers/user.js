@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
-import { ValidationError } from 'sequelize'; 
+import { ValidationError } from 'sequelize';
 import _ from 'lodash';
+import { tryLogin } from '../auth';
 
 const formatErrors = (e, models) => {
     if (e instanceof ValidationError) {
@@ -16,13 +17,14 @@ export default {
         allUsers: (parent, args, { models }) => models.user.findAll(),
     },
     Mutation: {
+        login: async(parent, { email, password }, { models, SECRET }) => tryLogin(email, password, models, SECRET),
         register: async (parent, { password, ...otherArgs }, { models }) => {
             try {
                 if (password.length < 5) {
                     return {
                         ok: false,
-                        errors: [{path: 'password', message: 'The password needs to be longer than 5 charachters.'}]
-                    }
+                        errors: [{ path: 'password', message: 'The password needs to be longer than 5 charachters.' }]
+                    };
                 }
                 const hash = bcrypt.hashSync(password, 10);
                 const user = await models.user.create({ ...otherArgs, password: hash });
