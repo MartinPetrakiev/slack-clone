@@ -23,6 +23,8 @@ function Register(props) {
         emailError: '',
         password: '',
         passwordError: '',
+        rePassword: '',
+        rePasswordError: ''
     };
 
     const [formState, setformState] = useState(user);
@@ -32,32 +34,53 @@ function Register(props) {
         password,
         usernameError,
         emailError,
-        passwordError
+        passwordError,
+        rePassword,
+        rePasswordError
     } = formState;
 
     const onSubmit = async (e) => {
-        // setformState({
-        //     usernameError: '',
-        //     emailError: '',
-        //     passwordError: '',
-        // });
 
-        try {
-            const res = await register({ variables: formState });
-            const { ok, errors } = res.data.register;
-            if (ok) {
-                props.history.push('/');
-            } else {
-                const err = {};
-                errors.forEach(({ path, message }) => {
-                    err[`${path}Error`] = message;
+        setformState((state) => {
+            state.usernameError = '';
+            state.emailError = '';
+            state.passwordError = '';
+            state.rePasswordError = '';
+            return state;
+        });
+
+        if (password !== rePassword) {
+            errorList.push(rePasswordError);
+            setformState({
+                ...formState,
+                rePassword: '',
+                rePasswordError: 'Passwords don\'t match'
+            });
+        } else {
+            try {
+                const res = await register({
+                    variables: {
+                        username,
+                        email,
+                        password
+                    }
                 });
-                setformState(err);
+                const { ok, errors } = res.data.register;
+                if (ok) {
+                    props.history.push('/');
+                } else {
+                    const err = {};
+                    errors.forEach(({ path, message }) => {
+                        err[`${path}Error`] = message;
+                    });
+                    setformState({ ...formState, ...err });
+                }
+                console.log(res);
+            } catch (error) {
+                console.log(error);
             }
-            console.log(res);
-        } catch (error) {
-            console.log(error);
         }
+
     };
 
     const handleChange = (e) => {
@@ -76,11 +99,14 @@ function Register(props) {
     if (passwordError) {
         errorList.push(passwordError);
     }
+    if (rePasswordError) {
+        errorList.push(rePasswordError);
+    }
 
     return (
         <Container text>
             <Header as='h2'>Register</Header>
-            <Form error={errorList.length}>
+            <Form error={!!errorList.length}>
                 <Form.Field>
                     <Form.Input error={!!usernameError} fluid label='Username' placeholder='Username...' name="username" value={username} onChange={handleChange} />
                 </Form.Field>
@@ -89,6 +115,9 @@ function Register(props) {
                 </Form.Field>
                 <Form.Field>
                     <Form.Input error={!!passwordError} fluid label='Password' placeholder='Password...' name="password" type="password" value={password} onChange={handleChange} />
+                </Form.Field>
+                <Form.Field>
+                    <Form.Input error={!!rePasswordError} fluid label='Password Confirmation' placeholder='Confirm password...' name="rePassword" type="password" value={rePassword} onChange={handleChange} />
                 </Form.Field>
                 <Message
                     error

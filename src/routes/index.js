@@ -2,22 +2,24 @@ import React from "react";
 import {
     Switch,
     Route,
-    BrowserRouter
+    Router
 } from "react-router-dom";
 import { createBrowserHistory } from 'history';
 
 import Home from './Home';
 import Register from './Register';
+import Login from './Login';
 
 const history = createBrowserHistory();
 
 const routes = () => (
-    <BrowserRouter history={history}>
+    <Router history={history}>
         <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/register" exact component={Register} />
+            <Route path="/login" exact component={Login} />
         </Switch>
-    </BrowserRouter>
+    </Router>
 );
 
 export default routes;
