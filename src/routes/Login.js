@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observable, action } from "mobx";
 import { observer } from "mobx-react";
 import { Button, Container, Form, Header, Message } from 'semantic-ui-react';
@@ -20,17 +20,23 @@ const LOGIN_MUTATION = gql`
 
 const Login = observer((props) => {
     const [login] = useMutation(LOGIN_MUTATION);
-    const state = observable({
-        values: {
+    const [formState] = useState(() =>
+        observable({
             email: '',
             password: '',
             emailError: '',
             passwordError: ''
-        }
-    });
+        })
+    );
 
     const onSubmit = async (e) => {
-        const { email, password } = { ...state.values };
+        //clear errors form state
+        (action(state => {
+            state.emailError = '';
+            state.passwordError = '';
+        }))(formState);
+
+        const { email, password } = { ...formState };
         try {
             const res = await login({
                 variables: {
@@ -44,14 +50,12 @@ const Login = observer((props) => {
                 localStorage.setItem('refreshToken', refreshToken);
                 props.history.push('/');
             } else {
-                const err = {};
-                errors.forEach(({ path, message }) => {
-                    err[`${path}Error`] = message;
-                });
-                // action(state => {
-                    
-                // });
-                state.values =  {...state.values, ...err}
+                //add errors to state
+                (action(state => {
+                    errors.forEach(({ path, message }) => {
+                        state[`${path}Error`] = message;
+                    });
+                }))(formState);
             }
             console.log(res);
         } catch (error) {
@@ -61,40 +65,37 @@ const Login = observer((props) => {
 
     const handleChange = action((e, state) => {
         const { name, value } = e.target;
-        state.values[name] = value;
+        state[name] = value;
     });
 
-    const { email, password } = state;
+    const { email, password } = formState;
     const errorList = [];
-    const formErrors = { ...state.values };
-    console.log(formErrors);
 
-
-    if(formErrors.emailError) {
-        errorList.push(formErrors.emailError);
+    if (formState.emailError) {
+        errorList.push(formState.emailError);
     }
-    if(formErrors.passwordError) {
-        errorList.push(formErrors.passwordError);
-    } 
+    if (formState.passwordError) {
+        errorList.push(formState.passwordError);
+    }
 
-        return (
-            <Container text>
-                <Header as='h2'>Login</Header>
-                <Form error={!!errorList.length}>
-                    <Form.Field>
-                        <Form.Input fluid label='Email' placeholder='Email...' name="email" value={email} onChange={(e) => handleChange(e, state)} />
-                    </Form.Field>
-                    <Form.Field>
-                        <Form.Input fluid label='Password' placeholder='Password...' name="password" type="password" value={password} onChange={(e) => handleChange(e, state)} />
-                    </Form.Field>
-                    <Message
-                        error
-                        list={errorList}
-                    />
-                    <Button onClick={onSubmit}>Login</Button>
-                </Form>
-            </Container>
-        );
+    return (
+        <Container text>
+            <Header as='h2'>Login</Header>
+            <Form error={!!errorList.length}>
+                <Form.Field>
+                    <Form.Input error={!!formState.emailError} fluid label='Email' placeholder='Email...' name="email" value={email} onChange={(e) => handleChange(e, formState)} />
+                </Form.Field>
+                <Form.Field>
+                    <Form.Input error={!!formState.passwordError} fluid label='Password' placeholder='Password...' name="password" type="password" value={password} onChange={(e) => handleChange(e, formState)} />
+                </Form.Field>
+                <Message
+                    error
+                    list={errorList}
+                />
+                <Button onClick={onSubmit}>Login</Button>
+            </Form>
+        </Container>
+    );
 });
 
 export default Login;
