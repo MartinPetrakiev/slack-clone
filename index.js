@@ -6,10 +6,12 @@ import { loadFilesSync } from '@graphql-tools/load-files';
 import { mergeTypeDefs, mergeResolvers } from '@graphql-tools/merge';
 import sequelize from './models/index';
 import cors from 'cors';
+import jwt from 'jsonwebtoken';
+import { refreshTokens } from './auth';
 
 const PORT = 8080;
-
-
+const SECRET = 'asdasgsdgasdasd';
+const SECRET2 = 'asdasgsdgasdasdasdasdasdasdads';
 const app = express();
 
 const corsOptions = {
@@ -18,8 +20,27 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const SECRET = 'asdasgsdgasdasd';
-const SECRET2 = 'asdasgsdgasdasdasdasdasdasdads';
+const addUser = async (req, res, next) => {
+  const token = req.headers['x-token'];
+  if (token) {
+    try {
+      const { user } = jwt.verify(token, SECRET);
+      req.user = user;
+    } catch (err) {
+      const refreshToken = req.headers['x-refresh-token'];
+      const newTokens = await refreshTokens(token, refreshToken, models, SECRET, SECRET2);
+      if (newTokens.token && newTokens.refreshToken) {
+        res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
+        res.set('x-token', newTokens.token);
+        res.set('x-refresh-token', newTokens.refreshToken);
+      }
+      req.user = newTokens.user;
+    }
+  }
+  next();
+};
+
+app.use(addUser);
 
 const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, './types')));
 const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname, './resolvers')));
@@ -33,14 +54,12 @@ const pathUri = '/graphql';
 const models = sequelize.models;
 const server = new ApolloServer({
   schema, 
-  context: {
+  context: ({ req }) => ({
     models,
-    user: {
-      id: 1
-    },
+    user: req.user,
     SECRET,
     SECRET2
-  },
+  }),
 });
 
 server.applyMiddleware({ app, pathUri });

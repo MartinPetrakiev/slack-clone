@@ -14,7 +14,9 @@ function applyExtraSetup(sequelize) {
 		foreignKey: 'teamId'
 	});
 	team.belongsTo(user, {
-		foreignKey: 'owner'
+		foreignKey: {
+			name: 'owner'
+		}
 	});
 	message.belongsTo(channel, {
 		foreignKey: 'channelId'

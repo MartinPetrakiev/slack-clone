@@ -7,7 +7,7 @@ export function Team(sequelize) {
         name: {
             type: DataTypes.STRING,
             unique: true,
-        }
+        },
     });
     return Team;
 };
