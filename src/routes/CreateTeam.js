@@ -22,6 +22,7 @@ const CreateTeam = observer((props) => {
         observable({
             name: '',
             nameError: '',
+            otherError: '',
         })
     );
 
@@ -30,27 +31,30 @@ const CreateTeam = observer((props) => {
         (action(state => {
             state.nameError = '';
         }))(formState);
-
+        let res;
         const { name } = { ...formState };
         try {
-            const res = await createTeam({
+            res = await createTeam({
                 variables: { name }
             });
-            const { ok, errors } = res.data.createTeam;
-            if (ok) {
-                props.history.push('/');
-            } else {
-                //add errors to state
-                (action(state => {
-                    errors.forEach(({ path, message }) => {
-                        state[`${path}Error`] = message;
-                    });
-                }))(formState);
-            }
-            console.log(res);
         } catch (error) {
             console.log(error);
+            props.history.push('/login');
+            return;
         }
+
+        const { ok, errors } = res.data.createTeam;
+        if (ok) {
+            props.history.push('/');
+        } else {
+            //add errors to state
+            (action(state => {
+                errors.forEach(({ path, message }) => {
+                    state[`${path}Error`] = message;
+                });
+            }))(formState);
+        }
+        console.log(res);
     };
 
     const handleChange = action((e, state) => {
@@ -63,6 +67,9 @@ const CreateTeam = observer((props) => {
 
     if (formState.nameError) {
         errorList.push(formState.nameError);
+    }
+    if (formState.otherError) {
+        errorList.push(formState.otherError);
     }
 
     return (
