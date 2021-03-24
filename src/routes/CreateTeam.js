@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { observable, action } from "mobx";
-import { observer } from "mobx-react";
 import { Button, Container, Form, Header, Message } from 'semantic-ui-react';
 import { gql, useMutation } from '@apollo/client';
 
@@ -16,21 +14,20 @@ const CREAT_TEAM_MUTATION = gql`
       }
 `;
 
-const CreateTeam = observer((props) => {
+function CreateTeam(props) {
     const [createTeam] = useMutation(CREAT_TEAM_MUTATION);
-    const [formState] = useState(() =>
-        observable({
-            name: '',
-            nameError: '',
-            otherError: '',
-        })
+    const [formState, setFormState] = useState({
+        name: '',
+        nameError: '',
+        otherError: '',
+    }
     );
 
-    const onSubmit = async (e) => {
+    const onSubmit = async () => {
         //clear errors form state
-        (action(state => {
-            state.nameError = '';
-        }))(formState);
+        setFormState(state => {
+            return { ...state, nameError: '' };
+        });
         let res;
         const { name } = { ...formState };
         try {
@@ -48,19 +45,23 @@ const CreateTeam = observer((props) => {
             props.history.push('/');
         } else {
             //add errors to state
-            (action(state => {
-                errors.forEach(({ path, message }) => {
-                    state[`${path}Error`] = message;
-                });
-            }))(formState);
+            const err = {};
+            errors.forEach(({ path, message }) => {
+                err[`${path}Error`] = message;
+            });
+            setFormState((state) => {
+                return { ...state, ...err };
+            });
         }
         console.log(res);
     };
 
-    const handleChange = action((e, state) => {
+    const handleChange = (e) => {
         const { name, value } = e.target;
-        state[name] = value;
-    });
+        setFormState(state => {
+            return { ...state, [name]: value };
+        });
+    };
 
     const { name } = formState;
     const errorList = [];
@@ -77,7 +78,7 @@ const CreateTeam = observer((props) => {
             <Header as='h2'>Create Team</Header>
             <Form error={!!errorList.length}>
                 <Form.Field>
-                    <Form.Input error={!!formState.nameError} fluid label='Team Name' placeholder='Name...' name="name" value={name} onChange={(e) => handleChange(e, formState)} />
+                    <Form.Input error={!!formState.nameError} fluid label='Team Name' placeholder='Name...' name="name" value={name} onChange={handleChange} />
                 </Form.Field>
                 <Message
                     error
@@ -87,6 +88,6 @@ const CreateTeam = observer((props) => {
             </Form>
         </Container>
     );
-});
+};
 
 export default CreateTeam;

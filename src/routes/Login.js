@@ -83,10 +83,27 @@ const Login = observer((props) => {
             <Header as='h2'>Login</Header>
             <Form error={!!errorList.length}>
                 <Form.Field>
-                    <Form.Input error={!!formState.emailError} fluid label='Email' placeholder='Email...' name="email" value={email} onChange={(e) => handleChange(e, formState)} />
+                    <Form.Input
+                        error={!!formState.emailError}
+                        fluid
+                        label='Email'
+                        placeholder='Email...'
+                        name="email"
+                        value={email}
+                        onChange={(e) => handleChange(e, formState)}
+                    />
                 </Form.Field>
                 <Form.Field>
-                    <Form.Input error={!!formState.passwordError} fluid label='Password' placeholder='Password...' name="password" type="password" value={password} onChange={(e) => handleChange(e, formState)} />
+                    <Form.Input
+                        error={!!formState.passwordError}
+                        fluid
+                        label='Password'
+                        placeholder='Password...'
+                        name="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => handleChange(e, formState)}
+                    />
                 </Form.Field>
                 <Message
                     error

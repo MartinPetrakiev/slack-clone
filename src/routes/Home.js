@@ -1,5 +1,8 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
+import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
+import Chat from '../components/Chat';
 
 const allUsersQuery = gql`
     {
@@ -19,10 +22,10 @@ function Home() {
     };
 
     return (
-        <div>
-            {data.allUsers.map(user => (
-                <h1 key={user.id}>{user.email}</h1>
-            ))}
+        <div className="Home">
+            <Navbar />
+            <Sidebar />
+            <Chat />
         </div>
     );
 }

@@ -27,14 +27,14 @@ function isAuthenticated() {
     return true;
 }
 
-function PrivateRoute({ children, ...rest }) {
+function PrivateRoute({ component: Component, ...rest }) {
     const isAuth = isAuthenticated();
     return (
         <Route
             {...rest}
-            render={({ }) =>
+            render={(props) =>
                 isAuth ? (
-                    children
+                    <Component {...props} />
                 ) : (
                     <Redirect
                         to={{
@@ -53,12 +53,10 @@ function Routes() {
     return (
         <Router history={history}>
             <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/register" exact component={Register} />
-                <Route path="/login" exact component={Login} />
-                <PrivateRoute path="/create-team" exact>
-                    <CreateTeam />
-                </PrivateRoute>
+                <PrivateRoute exact path="/" component={Home} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <PrivateRoute exact path="/create-team" component={CreateTeam} />
             </Switch>
         </Router>
     );

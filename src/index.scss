@@ -1,0 +1,85 @@
+@font-face {
+  font-family: Slack-Lato;
+  font-style: normal;
+  font-weight: 300;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-light-0b50f74.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-light-1475c14.woff) format("woff");
+  unicode-range: U+0000-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: normal;
+  font-weight: 400;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-regular-d9ce515.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-regular-ea6d1e4.woff) format("woff");
+  unicode-range: U+0000-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: normal;
+  font-weight: 700;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-bold-4b1dc11.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-bold-a532381.woff) format("woff");
+  unicode-range: U+0000-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: normal;
+  font-weight: 900;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-black-b64f5e4.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-black-8857ce8.woff) format("woff");
+  unicode-range: U+0000-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: italic;
+  font-weight: 300;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-italic-light-c593311.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-italic-light-354fb58.woff) format("woff");
+  unicode-range: U+0000-2259,U+2261-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: italic;
+  font-weight: 400;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-italic-5bbcd6c.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-italic-d5261ac.woff) format("woff");
+  unicode-range: U+0000-2259,U+2261-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: italic;
+  font-weight: 700;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-italic-bold-99def7d.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-italic-bold-2187a11.woff) format("woff");
+  unicode-range: U+0000-2259,U+2261-f8fe,U+f900-ffff
+}
+
+@font-face {
+  font-family: Slack-Lato;
+  font-style: italic;
+  font-weight: 900;
+  src: local("\263A"),url(https://a.slack-edge.com/bv1-9/lato-italic-black-04aca50.woff2) format("woff2"),url(https://a.slack-edge.com/bv1-9/lato-italic-black-23c1971.woff) format("woff");
+  unicode-range: U+0000-2259,U+2261-f8fe,U+f900-ffff
+}
+
+
+body {
+  --slack-color: #3F0E40;
+  margin: 0;
+  // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  //   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  //   sans-serif;
+  font-family: Slack-Lato,appleLogo,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.Home {
+  display: flex;
+  height: 100vh;
+}
