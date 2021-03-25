@@ -1,63 +1,69 @@
 import { InfoOutlined } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../component-styles/Chat.module.scss';
+import ChatInput from './ChatInput';
+import Message from './Message';
 
-function Chat() {
+function Chat({ channelId }) {
+    const chatRef = useRef(null);
+    const roomId = 1;
     const [channelDetails, setChannelDetails] = useState(false);
+    const [channelMessages, setChannelMessages] = useState({
+        timestamp: new Date(2021, 9, 22, 20, 15),
+        message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit. Nemo dicta cum et eos voluptatibus nesciunt delectus. Earum, nisi beatae! Quo?',
+        userImage: false,
+        user: 'Martin Petrakiev',
+        id: 1
+    });
 
     const showDetails = () => {
         !channelDetails ? setChannelDetails(true) : setChannelDetails(false);
     };
+    chatRef?.current?.scrollIntoView({
+        behavior: 'smooth'
+    });
+    useEffect(() => {
+        chatRef?.current?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }, [roomId]);
+    const message = (<Message key={channelMessages.id}
+        message={channelMessages.message}
+        timestamp={channelMessages.timestamp}
+        user={channelMessages.user}
+        userImage={channelMessages.userImage} />);
+
+    const messages = new Array(10).fill(message);
+
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <div className={styles.header_left}>
-                    <h4><strong># Channel 1</strong></h4>
-                </div>
-                <div className={styles.header_right}>
-                    <div onClick={showDetails}>
-                        <InfoOutlined />
+            {channelId ? (
+                <>
+                    <div className={styles.header}>
+                        <div className={styles.header_left}>
+                            <h4><strong># Channel 1</strong></h4>
                         </div>
-                </div>
-            </div>
-            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam suscipit quod, repudiandae quam ad quaerat mollitia eum, ratione aperiam, iusto facilis aliquid debitis tempore eos totam perferendis optio dolor ut!
-                Inventore veritatis molestiae vero debitis necessitatibus, explicabo expedita ut, illum dignissimos quo perspiciatis, quibusdam nostrum omnis alias numquam molestias. Sequi exercitationem alias qui quidem incidunt. Laborum consectetur repellat inventore a.
-                Quam numquam aperiam aliquid corrupti placeat ea repellendus assumenda quo, ullam quod illum illo iste nisi culpa molestiae aut earum qui soluta omnis saepe unde. Impedit assumenda qui quisquam blanditiis.
-                Earum est libero cupiditate odio officia officiis suscipit dicta inventore beatae molestias? Suscipit reprehenderit, perferendis deserunt hic dolor commodi, ipsa sunt inventore repudiandae debitis alias dolores ex necessitatibus? Expedita, amet.
-                Nihil unde voluptates voluptate quis culpa minus dolor neque esse accusantium deserunt omnis, dolorum qui nobis itaque praesentium earum sequi sed optio illum eveniet similique. Reiciendis illum deserunt deleniti reprehenderit.
-            </div>
-            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam suscipit quod, repudiandae quam ad quaerat mollitia eum, ratione aperiam, iusto facilis aliquid debitis tempore eos totam perferendis optio dolor ut!
-                Inventore veritatis molestiae vero debitis necessitatibus, explicabo expedita ut, illum dignissimos quo perspiciatis, quibusdam nostrum omnis alias numquam molestias. Sequi exercitationem alias qui quidem incidunt. Laborum consectetur repellat inventore a.
-                Quam numquam aperiam aliquid corrupti placeat ea repellendus assumenda quo, ullam quod illum illo iste nisi culpa molestiae aut earum qui soluta omnis saepe unde. Impedit assumenda qui quisquam blanditiis.
-                Earum est libero cupiditate odio officia officiis suscipit dicta inventore beatae molestias? Suscipit reprehenderit, perferendis deserunt hic dolor commodi, ipsa sunt inventore repudiandae debitis alias dolores ex necessitatibus? Expedita, amet.
-                Nihil unde voluptates voluptate quis culpa minus dolor neque esse accusantium deserunt omnis, dolorum qui nobis itaque praesentium earum sequi sed optio illum eveniet similique. Reiciendis illum deserunt deleniti reprehenderit.
-            </div>            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam suscipit quod, repudiandae quam ad quaerat mollitia eum, ratione aperiam, iusto facilis aliquid debitis tempore eos totam perferendis optio dolor ut!
-                Inventore veritatis molestiae vero debitis necessitatibus, explicabo expedita ut, illum dignissimos quo perspiciatis, quibusdam nostrum omnis alias numquam molestias. Sequi exercitationem alias qui quidem incidunt. Laborum consectetur repellat inventore a.
-                Quam numquam aperiam aliquid corrupti placeat ea repellendus assumenda quo, ullam quod illum illo iste nisi culpa molestiae aut earum qui soluta omnis saepe unde. Impedit assumenda qui quisquam blanditiis.
-                Earum est libero cupiditate odio officia officiis suscipit dicta inventore beatae molestias? Suscipit reprehenderit, perferendis deserunt hic dolor commodi, ipsa sunt inventore repudiandae debitis alias dolores ex necessitatibus? Expedita, amet.
-                Nihil unde voluptates voluptate quis culpa minus dolor neque esse accusantium deserunt omnis, dolorum qui nobis itaque praesentium earum sequi sed optio illum eveniet similique. Reiciendis illum deserunt deleniti reprehenderit.
-            </div>            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam suscipit quod, repudiandae quam ad quaerat mollitia eum, ratione aperiam, iusto facilis aliquid debitis tempore eos totam perferendis optio dolor ut!
-                Inventore veritatis molestiae vero debitis necessitatibus, explicabo expedita ut, illum dignissimos quo perspiciatis, quibusdam nostrum omnis alias numquam molestias. Sequi exercitationem alias qui quidem incidunt. Laborum consectetur repellat inventore a.
-                Quam numquam aperiam aliquid corrupti placeat ea repellendus assumenda quo, ullam quod illum illo iste nisi culpa molestiae aut earum qui soluta omnis saepe unde. Impedit assumenda qui quisquam blanditiis.
-                Earum est libero cupiditate odio officia officiis suscipit dicta inventore beatae molestias? Suscipit reprehenderit, perferendis deserunt hic dolor commodi, ipsa sunt inventore repudiandae debitis alias dolores ex necessitatibus? Expedita, amet.
-                Nihil unde voluptates voluptate quis culpa minus dolor neque esse accusantium deserunt omnis, dolorum qui nobis itaque praesentium earum sequi sed optio illum eveniet similique. Reiciendis illum deserunt deleniti reprehenderit.
-            </div>            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam suscipit quod, repudiandae quam ad quaerat mollitia eum, ratione aperiam, iusto facilis aliquid debitis tempore eos totam perferendis optio dolor ut!
-                Inventore veritatis molestiae vero debitis necessitatibus, explicabo expedita ut, illum dignissimos quo perspiciatis, quibusdam nostrum omnis alias numquam molestias. Sequi exercitationem alias qui quidem incidunt. Laborum consectetur repellat inventore a.
-                Quam numquam aperiam aliquid corrupti placeat ea repellendus assumenda quo, ullam quod illum illo iste nisi culpa molestiae aut earum qui soluta omnis saepe unde. Impedit assumenda qui quisquam blanditiis.
-                Earum est libero cupiditate odio officia officiis suscipit dicta inventore beatae molestias? Suscipit reprehenderit, perferendis deserunt hic dolor commodi, ipsa sunt inventore repudiandae debitis alias dolores ex necessitatibus? Expedita, amet.
-                Nihil unde voluptates voluptate quis culpa minus dolor neque esse accusantium deserunt omnis, dolorum qui nobis itaque praesentium earum sequi sed optio illum eveniet similique. Reiciendis illum deserunt deleniti reprehenderit.
-            </div>
-            {/* <ChatInput
+                        <div className={styles.header_right}>
+                            <div onClick={showDetails}>
+                                <InfoOutlined />
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.messages}>
+                        {messages}
+                        <div ref={chatRef} />
+                    </div>
+                    <ChatInput
                         chatRef={chatRef}
-                        channelName={roomDetails?.data().name}
+                        channelName={channelDetails || 'Channel 1'}
                         channelId={roomId}
-                    /> */}
+                    />
+                </>
+            ) : (
+                <div className={styles.header}>Select a channel</div>
+            )}
+
         </div>
     );
 }

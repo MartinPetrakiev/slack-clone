@@ -80,6 +80,22 @@ code {
 }
 
 .Home {
-  display: flex;
+  width: 100vw;
   height: 100vh;
+  display: grid;
+  grid-template-areas:
+  "navbar"
+  "client_workspace";
+  grid-template-rows: 38px auto;
+}
+
+.Workspace {
+  display: grid;
+  grid-row-start: 2;
+  grid-template-areas:
+  "sidebar main";
+  grid-template-columns: 230px auto;
+  grid-template-rows: auto;
+  overflow: hidden;
+  position: relative;
 }

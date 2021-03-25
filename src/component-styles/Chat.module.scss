@@ -1,19 +1,26 @@
 .container {
-    margin-top: 38px;
-    flex: 0.7;
-    flex-grow: 1;
-    overflow-y: scroll;
-    ::-webkit-scrollbar {
+    display: grid;
+    grid-column-start: 2;
+    grid-template-areas:
+    "header"
+    "messages"
+    "input";
+    grid-template-rows: 64px auto 73px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    &::-webkit-scrollbar {
      width: 8px;
      background-color: lightgray;
     }
-    ::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
         background-color: var(--slack-color);
     }
 }
 
 .header {
     position: fixed;
+    height: 64px;
+    grid-row: 1;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -50,4 +57,10 @@
         margin-right: 5px !important;
         font-size: 16px;
     }
+}
+
+.messages {
+    grid-row: 2;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
