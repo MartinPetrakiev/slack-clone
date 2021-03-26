@@ -7,6 +7,9 @@ export function Channel(sequelize) {
         name: {
             type: DataTypes.STRING,
         },
+        topic: {
+            type: DataTypes.STRING,
+        },
         public: {
             type: DataTypes.BOOLEAN,
         }
