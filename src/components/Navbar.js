@@ -1,10 +1,19 @@
 import React from 'react';
-import UserMenuModal from './UserMenuModal';
+import UserMenuModal from '../containers/UserMenuModal';
 import { Input, Modal, Popup } from 'semantic-ui-react';
 import { Search } from '@material-ui/icons';
-import styles from '../component-styles/Navbar.module.scss';
+import styles from '../styles/Navbar.module.scss';
+import decode from 'jwt-decode';
 
 function Navbar() {
+    let username = '';
+    try {
+        const token = localStorage.getItem('token');
+        const { user } = decode(token);
+        username = user.username;
+    } catch (error) {
+
+    }
     const popupStyle = {
         borderRadius: '10px',
         fontSize: '12px',
@@ -29,7 +38,7 @@ function Navbar() {
             <div className={styles.nav_right}>
                 <Popup
                     trigger={<div><UserMenuModal /></div>}
-                    content='Martin Petrakiev'
+                    content={username}
                     position='bottom right'
                     style={popupStyle}
                     inverted

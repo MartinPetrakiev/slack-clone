@@ -30,6 +30,7 @@ const Login = observer((props) => {
     );
 
     const onSubmit = async (e) => {
+        e.preventDefault();
         //clear errors form state
         (action(state => {
             state.emailError = '';
@@ -48,7 +49,7 @@ const Login = observer((props) => {
             if (ok) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('refreshToken', refreshToken);
-                props.history.push('/');
+                props.history.push('/team-select');
             } else {
                 //add errors to state
                 (action(state => {

@@ -40,7 +40,7 @@ function Register(props) {
     } = formState;
 
     const onSubmit = async (e) => {
-
+        e.preventDefault();
         setformState((state) => {
             state.usernameError = '';
             state.emailError = '';

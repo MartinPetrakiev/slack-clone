@@ -1,13 +1,12 @@
 import { InfoOutlined } from '@material-ui/icons';
 import React, { useEffect, useRef, useState } from 'react';
-import styles from '../component-styles/Chat.module.scss';
-import ChatInput from './ChatInput';
-import Message from './Message';
+import styles from '../styles/Chat.module.scss';
+import ChatInput from '../containers/ChatInput';
+import Message from '../containers/Message';
 
 function Chat({ channelId }) {
     const chatRef = useRef(null);
     const roomId = 1;
-    const [channelDetails, setChannelDetails] = useState(false);
     const [channelMessages, setChannelMessages] = useState({
         timestamp: new Date(2021, 9, 22, 20, 15),
         message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit.et consectetur adipisicing elit. Nemo dicta cum et eos voluptatibus nesciunt delectus. Earum, nisi beatae! Quo?',
@@ -17,17 +16,20 @@ function Chat({ channelId }) {
     });
 
     const showDetails = () => {
-        !channelDetails ? setChannelDetails(true) : setChannelDetails(false);
+
     };
+
     chatRef?.current?.scrollIntoView({
         behavior: 'smooth'
     });
+
     useEffect(() => {
         chatRef?.current?.scrollIntoView({
             behavior: 'smooth'
         });
     }, [roomId]);
-    const message = (<Message key={channelMessages.id}
+
+    const message = (<Message key={Math.floor(Math.random() * 100)}
         message={channelMessages.message}
         timestamp={channelMessages.timestamp}
         user={channelMessages.user}
@@ -37,9 +39,9 @@ function Chat({ channelId }) {
 
 
     return (
-        <div className={styles.container}>
+        <>
             {channelId ? (
-                <>
+                <div className={styles.container}>
                     <div className={styles.header}>
                         <div className={styles.header_left}>
                             <h4><strong># Channel 1</strong></h4>
@@ -56,15 +58,17 @@ function Chat({ channelId }) {
                     </div>
                     <ChatInput
                         chatRef={chatRef}
-                        channelName={channelDetails || 'Channel 1'}
+                        channelName={'Channel 1'}
                         channelId={roomId}
                     />
-                </>
+                </div>
             ) : (
-                <div className={styles.header}>Select a channel</div>
+                <div className={styles.container}>
+                    <div className={styles.header}>Select a channel</div>
+                </div>
             )}
 
-        </div>
+        </>
     );
 }
 

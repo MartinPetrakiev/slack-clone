@@ -8,7 +8,7 @@ import {
     PeopleAltOutlined,
     SubjectRounded
 } from '@material-ui/icons';
-import styles from '../component-styles/MainOptions.module.scss';
+import styles from '../styles/MainOptions.module.scss';
 
 function MainOptions() {
     return (

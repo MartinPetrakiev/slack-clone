@@ -4,39 +4,52 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import Chat from '../components/Chat';
 
-const allUsersQuery = gql`
+// const ALL_USERS_QUERY = gql`
+//     {
+//       allUsers {
+//         id
+//         email
+//       }
+//     }
+// `;
+
+const GET_TEAM_QUERY = gql`
     {
-      allUsers {
+    	getTeam(id:"1"){
         id
-        email
+        name
+        channels{
+          id
+          name
+        }
       }
-    }
+    },
 `;
 
-function Home() {
+
+function Home(props) {
     const [channelId, setChannelId] = useState('');
-    const { loading, error, data } = useQuery(allUsersQuery);
+
+    const { loading, error, data } = useQuery(GET_TEAM_QUERY);
+    console.log(data);
     if (loading) return <p>Loading...</p>;
     if (error) {
         console.log(error);
         return <p>Error :(</p>;
     };
-    
+
     const selectChannel = (e) => {
         if (e.target.id) {
-            console.log(e.target.id);
             setChannelId({ id: e.target.id });
-            
         }
     };
 
     return (
         <div className="Home">
             <Navbar />
-
             <div className="Workspace">
-                <Sidebar selectChannel={selectChannel} />
-                <Chat channelId={channelId} />
+                <Sidebar selectChannel={selectChannel} team={data} history={props.history} />
+                <Chat channelId={channelId} data={data} />
             </div>
         </div>
     );

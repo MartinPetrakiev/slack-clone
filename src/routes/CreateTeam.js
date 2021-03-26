@@ -23,7 +23,8 @@ function CreateTeam(props) {
     }
     );
 
-    const onSubmit = async () => {
+    const onSubmit = async (e) => {
+        e.preventDefault();
         //clear errors form state
         setFormState(state => {
             return { ...state, nameError: '' };
@@ -31,6 +32,9 @@ function CreateTeam(props) {
         let res;
         const { name } = { ...formState };
         try {
+            if(!name) {
+              return;
+            }
             res = await createTeam({
                 variables: { name }
             });

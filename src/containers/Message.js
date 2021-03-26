@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../component-styles/Message.module.scss';
+import styles from '../styles/Message.module.scss';
 
 function Message({ message, timestamp, user, userImage }) {
     return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send } from '@material-ui/icons';
-import styles from '../component-styles/ChatInput.module.scss';
+import styles from '../styles/ChatInput.module.scss';
 
 function ChatInput({ channelName }) {
     const [input, setInput] = useState('');

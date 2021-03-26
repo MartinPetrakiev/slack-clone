@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import MainOptions from './MainOptions';
+import { useQuery, gql } from '@apollo/client';
+import MainOptions from '../containers/MainOptions';
+import AddChannelModal from '../containers/AddChannelModal';
+import { loadCalendar } from '../googleCalendar';
 import {
     ArrowDropDownRounded,
     ArrowDropUpRounded,
@@ -9,14 +12,25 @@ import {
     ExpandMoreRounded,
     MoreVert
 } from '@material-ui/icons';
-import AddChannelModal from './AddChannelModal';
-import { loadCalendar } from '../googleCalendar';
-import styles from '../component-styles/Sidebar.module.scss';
+import styles from '../styles/Sidebar.module.scss';
 
-function Sidebar({ selectChannel }) {
+const ALL_CHANNELS_QUERY = gql`
+{
+	allChannels{
+    id
+    name
+    topic
+  }
+}
+`;
+
+function Sidebar({ team, selectChannel, history}) {
+    const { name: teamName } = team.getTeam;
     const [expandMainOptions, setExpandMainOptions] = useState(false);
     const [expandChannels, setexpandChannels] = useState(false);
 
+    const { data: channels } = useQuery(ALL_CHANNELS_QUERY);
+    
     const collapseHandle = (e) => {
         const currTarget = e.currentTarget.id;
         if (expandMainOptions && currTarget === "main_collapse") {
@@ -30,33 +44,21 @@ function Sidebar({ selectChannel }) {
             setexpandChannels(true);
         }
     };
-    const channels = [
-        {
-            id: 1,
-            name: 'random'
-        },
-        {
-            id: 2,
-            name: 'general'
-        },
-        {
-            id: 3,
-            name: 'training'
-        }
-    ];
 
-
+    const selectTeam = () => {
+        history.push('/team-select');
+    }
 
     return (
         <div className={styles.container}>
             <div>
                 <div className={styles.header}>
                     <div className={styles.info}>
-                        <h2>:Team Name:</h2>
-                        <ExpandMoreRounded />
-                    </div>
-                    <div className={styles.new_message}>
-                        <Create />
+                        <h2>{teamName || ":TEAM:"}</h2>
+                        <ExpandMoreRounded onClick={selectTeam} />
+                        <div className={styles.new_message}>
+                            <Create />
+                        </div>
                     </div>
                 </div>
                 {expandMainOptions ?
@@ -79,7 +81,7 @@ function Sidebar({ selectChannel }) {
                         </div>
                     </div>)
                 }
-                {expandChannels ?
+                {expandChannels && channels ?
                     (<div className={styles.channels_container}>
                         <div id="channels_collapse" className={styles.channels_collapse} onClick={collapseHandle}>
                             <ArrowDropDownRounded />
@@ -87,16 +89,19 @@ function Sidebar({ selectChannel }) {
                         </div>
 
                         <div className={styles.channels_list}>
-                            {channels?.map(x => {
+                            {channels.allChannels?.map(x => {
                                 return (
                                     <div
-                                        key={x.id}
+                                        key={`channel-${x.id}`}
                                         id={x.id}
+                                        // teamName={x.teamName}
+                                        // username={x.username}
+                                        topic={x.topic}
                                         onClick={selectChannel}
                                     >
                                         <i>#</i> {x.name}
                                     </div>
-                                )
+                                );
                             })}
                             <div className={styles.add_channel_button}>
                                 <AddChannelModal />

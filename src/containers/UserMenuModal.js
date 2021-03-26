@@ -21,7 +21,7 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-function UserMenuModal(porps) {
+function UserMenuModal() {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -33,7 +33,7 @@ function UserMenuModal(porps) {
     };
 
     return (
-        <div porps>
+        <div >
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -48,7 +48,7 @@ function UserMenuModal(porps) {
                         width: "28px",
                         height: "28px",
                     }}
-                    alt="Marto"
+                    alt=""
                     // src={user?.photoURL}
                     // alt={user?.displayName}
                     onClick={handleClick}
@@ -57,12 +57,13 @@ function UserMenuModal(porps) {
             <Menu
                 id="user-menu"
                 anchorEl={anchorEl}
+                getContentAnchorEl={null}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'left',
+                    horizontal: 'center',
                   }}
                   transformOrigin={{
                     vertical: 'top',
