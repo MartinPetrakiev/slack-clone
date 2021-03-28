@@ -35,7 +35,7 @@ function CreateTeam(props) {
     );
 
     const onSubmit = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         //clear errors form state
         setFormState(state => {
             return { ...state, nameError: '' };
@@ -57,7 +57,10 @@ function CreateTeam(props) {
 
         const { ok, errors } = res.data.createTeam;
         if (ok) {
-            props.history.push('/team-select');
+            props.history.push({
+                pathname: '/team-select',
+                state: { refetch: true }
+            });
         } else {
             //add errors to state
             const err = {};

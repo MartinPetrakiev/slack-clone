@@ -25,21 +25,21 @@ query($teamId:String!){
   }
 `;
 
-const CREATE_CHANNEL_MUTATION = gql`
-mutation($teamId:String!,$name:String!,$topic:String) {
-    createChannel(teamId:$teamId,name:$name, topic:$topic) {
-      ok
-      channelData{
-        channelKey
-        name
-        topic
-      }
-    }
-  }
-`;
+// const CREATE_CHANNEL_MUTATION = gql`
+// mutation($teamId:String!,$name:String!,$topic:String) {
+//     createChannel(teamId:$teamId,name:$name, topic:$topic) {
+//       ok
+//       channelData{
+//         channelKey
+//         name
+//         topic
+//       }
+//     }
+//   }
+// `;
 
-function Sidebar({ team, selectChannel, history }) {
-    const { name: teamName, id: teamId } = team.getTeam;
+function Sidebar({ teamChannels, selectChannel, history }) {
+    const { name: teamName, id: teamId } = teamChannels.getTeam;
     const [expandMainOptions, setExpandMainOptions] = useState(false);
     const [expandChannels, setexpandChannels] = useState(true);
     const { data: channels, refetch } = useQuery(ALL_CHANNELS_QUERY, {
