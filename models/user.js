@@ -5,6 +5,10 @@ import bcrypt from 'bcrypt';
 // This function will automatically receive as parameter the Sequelize connection object.
 export function User(sequelize) {
     const User = sequelize.define('user', {
+        userKey: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV1,
+        },
         username: {
             type: DataTypes.STRING,
             unique: true,

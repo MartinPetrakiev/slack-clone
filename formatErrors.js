@@ -9,6 +9,7 @@ export default (e, models) => {
     // if(e.message === "Cannot read property 'id' of undefined") {
     //     return [{ path: 'name', message: 'You need to login first!' }];
     // }
+    // return e;
     return [{ path: 'name', message: 'Something went wrong...' }];
 
 };

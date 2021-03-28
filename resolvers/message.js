@@ -3,8 +3,7 @@ import requiresAuth from '../permissions';
 
 export default {
     Query: {
-        getChannelMessages: async (parent, args, { models }) =>
-            models.message.findAll({ channelId: args.channelId }),
+
     },
     Mutation: {
         createMessage: async (paranet, args, { models, user }) => {
@@ -18,7 +17,7 @@ export default {
         }
     },
     Message: {
-        user: ({ id }, args, { models }) => models.findAll({userId: id}),
-        channel: ({ id }, args, { models }) => models.findAll({channelId: id}),
+        user: (parent, args, { models }) => models.user.findOne({id: parent.userId}),
+        channel: (parent, args, { models }) => models.channel.findOne({id: parent.channelId}),
     }
 };

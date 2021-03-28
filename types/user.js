@@ -1,6 +1,7 @@
 export default `
     type User {
         id: ID!
+        userKey: String!
         username: String!
         email: String!
         teams: [Team!]!

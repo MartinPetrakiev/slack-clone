@@ -4,6 +4,10 @@ import { DataTypes } from 'sequelize';
 // This function will automatically receive as parameter the Sequelize connection object.
 export function Channel(sequelize) {
     const Channel = sequelize.define('channel', {
+        channelKey: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV1,
+        },
         name: {
             type: DataTypes.STRING,
         },

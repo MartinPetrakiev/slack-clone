@@ -1,6 +1,7 @@
 export default `
     type Team {
       id: ID!
+      teamKey: String!
       name: String!
       owner: User!
       members: [User!]
@@ -14,7 +15,7 @@ export default `
 
     type Query {
         allTeams: [Team!]!
-        getTeam(id: String!): Team!
+        getTeam(teamKey: String!): Team!
     }
 
 

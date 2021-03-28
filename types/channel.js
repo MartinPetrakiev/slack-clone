@@ -1,6 +1,7 @@
 export default `
     type Channel {
         id: ID!
+        channelKey: String!
         name: String!
         topic: String
         public: Boolean!
@@ -10,11 +11,12 @@ export default `
 
     type ChannelResponse {
         ok: Boolean!
-        channelData: Channel
         errors: [Error!]
       }
+
     type Query {
-        allChannels: [Channel!]!
+        allChannels(teamId: String!): [Channel!]!
+        getChannel(channelKey: String!): Channel!
     }
     type Mutation {
         createChannel(teamId: Int!, name: String!, topic: String, public: Boolean=false): ChannelResponse!
