@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import MainOptions from '../containers/MainOptions';
-import AddChannelModal from '../containers/AddChannelModal';
+import MainOptions from '../components/MainOptions';
+import AddChannelModal from '../components/AddChannelModal';
 import { loadCalendar } from '../googleCalendar';
+import { Popup } from 'semantic-ui-react';
 import {
     ArrowDropDownRounded,
     ArrowDropUpRounded,
@@ -15,22 +16,38 @@ import {
 import styles from '../styles/Sidebar.module.scss';
 
 const ALL_CHANNELS_QUERY = gql`
-{
-	allChannels{
-    id
-    name
-    topic
+query($teamId:String!){
+    allChannels(teamId:$teamId) {
+      id
+      channelKey
+      name
+    }
   }
-}
 `;
 
-function Sidebar({ team, selectChannel, history}) {
-    const { name: teamName } = team.getTeam;
-    const [expandMainOptions, setExpandMainOptions] = useState(false);
-    const [expandChannels, setexpandChannels] = useState(false);
+const CREATE_CHANNEL_MUTATION = gql`
+mutation($teamId:String!,$name:String!,$topic:String) {
+    createChannel(teamId:$teamId,name:$name, topic:$topic) {
+      ok
+      channelData{
+        channelKey
+        name
+        topic
+      }
+    }
+  }
+`;
 
-    const { data: channels } = useQuery(ALL_CHANNELS_QUERY);
-    
+function Sidebar({ team, selectChannel, history }) {
+    const { name: teamName, id: teamId } = team.getTeam;
+    const [expandMainOptions, setExpandMainOptions] = useState(false);
+    const [expandChannels, setexpandChannels] = useState(true);
+    const { data: channels, refetch } = useQuery(ALL_CHANNELS_QUERY, {
+        variables: {
+            teamId: teamId
+        }
+    });
+
     const collapseHandle = (e) => {
         const currTarget = e.currentTarget.id;
         if (expandMainOptions && currTarget === "main_collapse") {
@@ -47,7 +64,14 @@ function Sidebar({ team, selectChannel, history}) {
 
     const selectTeam = () => {
         history.push('/team-select');
-    }
+    };
+
+
+    const popupStyle = {
+        borderRadius: '10px',
+        fontSize: '12px',
+        fontWeight: '600'
+    };
 
     return (
         <div className={styles.container}>
@@ -55,7 +79,14 @@ function Sidebar({ team, selectChannel, history}) {
                 <div className={styles.header}>
                     <div className={styles.info}>
                         <h2>{teamName || ":TEAM:"}</h2>
-                        <ExpandMoreRounded onClick={selectTeam} />
+                        <Popup
+                            trigger={<div><ExpandMoreRounded onClick={selectTeam} /></div>}
+                            content={teamName}
+                            position='bottom right'
+                            style={popupStyle}
+                            inverted
+                            size='mini'
+                        />
                         <div className={styles.new_message}>
                             <Create />
                         </div>
@@ -92,19 +123,17 @@ function Sidebar({ team, selectChannel, history}) {
                             {channels.allChannels?.map(x => {
                                 return (
                                     <div
-                                        key={`channel-${x.id}`}
-                                        id={x.id}
-                                        // teamName={x.teamName}
-                                        // username={x.username}
-                                        topic={x.topic}
+                                        key={x.channelKey}
+                                        id={x.channelKey}
+                                        value={x.topic}
                                         onClick={selectChannel}
                                     >
-                                        <i>#</i> {x.name}
+                                        <i>#</i> <span>{x.name}</span>
                                     </div>
                                 );
                             })}
                             <div className={styles.add_channel_button}>
-                                <AddChannelModal />
+                                 <AddChannelModal teamId={teamId} refetch={refetch}/>
                             </div>
                         </div>
                     </div>)

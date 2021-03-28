@@ -14,6 +14,17 @@ const CREAT_TEAM_MUTATION = gql`
       }
 `;
 
+const GET_ALL_TEAMS_QUERY = gql`
+    {
+         allTeams{
+            id
+            teamKey
+            name
+          }
+
+    }
+`;
+
 function CreateTeam(props) {
     const [createTeam] = useMutation(CREAT_TEAM_MUTATION);
     const [formState, setFormState] = useState({
@@ -24,7 +35,7 @@ function CreateTeam(props) {
     );
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         //clear errors form state
         setFormState(state => {
             return { ...state, nameError: '' };
@@ -32,21 +43,21 @@ function CreateTeam(props) {
         let res;
         const { name } = { ...formState };
         try {
-            if(!name) {
-              return;
+            if (!name) {
+                return;
             }
             res = await createTeam({
                 variables: { name }
             });
         } catch (error) {
-            console.log(error);
+            console.log([error]);
             props.history.push('/login');
             return;
         }
 
         const { ok, errors } = res.data.createTeam;
         if (ok) {
-            props.history.push('/');
+            props.history.push('/team-select');
         } else {
             //add errors to state
             const err = {};

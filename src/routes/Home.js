@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
-import Chat from '../components/Chat';
+import Navbar from '../containers/Navbar';
+import Sidebar from '../containers/Sidebar';
+import Chat from '../containers/Chat';
 
 // const ALL_USERS_QUERY = gql`
 //     {
@@ -14,33 +14,36 @@ import Chat from '../components/Chat';
 // `;
 
 const GET_TEAM_QUERY = gql`
-    {
-    	getTeam(id:"1"){
-        id
-        name
-        channels{
-          id
-          name
-        }
-      }
-    },
+query($teamKey:String!){
+    getTeam(teamKey:$teamKey) {
+    id
+    name
+    channels{
+      channelKey
+      topic
+    }
+  }
+
+}
 `;
 
 
 function Home(props) {
-    const [channelId, setChannelId] = useState('');
-
-    const { loading, error, data } = useQuery(GET_TEAM_QUERY);
-    console.log(data);
+    const [channelKey, setChannelKey] = useState('');
+    const { loading, error, data } = useQuery(GET_TEAM_QUERY, {
+        variables: {
+            teamKey: props.location.state.teamKey
+        }
+    });
     if (loading) return <p>Loading...</p>;
     if (error) {
-        console.log(error);
+        console.log([error]);
         return <p>Error :(</p>;
     };
 
     const selectChannel = (e) => {
         if (e.target.id) {
-            setChannelId({ id: e.target.id });
+            setChannelKey({ channelKey: e.target.id });
         }
     };
 
@@ -49,7 +52,7 @@ function Home(props) {
             <Navbar />
             <div className="Workspace">
                 <Sidebar selectChannel={selectChannel} team={data} history={props.history} />
-                <Chat channelId={channelId} data={data} />
+                <Chat channelKey={channelKey.channelKey} />
             </div>
         </div>
     );

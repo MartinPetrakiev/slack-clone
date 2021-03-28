@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { observable, action } from "mobx";
 import { observer } from "mobx-react";
-import { Button, Container, Form, Header, Message } from 'semantic-ui-react';
+import slackLogo from '../styles/slack-logo.png';
+import { Button, Container, Form, Header, Message, Grid, Image, Segment } from 'semantic-ui-react';
 import { gql, useMutation } from '@apollo/client';
 
 const LOGIN_MUTATION = gql`
@@ -81,37 +82,52 @@ const Login = observer((props) => {
 
     return (
         <Container text>
-            <Header as='h2'>Login</Header>
-            <Form error={!!errorList.length}>
-                <Form.Field>
-                    <Form.Input
-                        error={!!formState.emailError}
-                        fluid
-                        label='Email'
-                        placeholder='Email...'
-                        name="email"
-                        value={email}
-                        onChange={(e) => handleChange(e, formState)}
-                    />
-                </Form.Field>
-                <Form.Field>
-                    <Form.Input
-                        error={!!formState.passwordError}
-                        fluid
-                        label='Password'
-                        placeholder='Password...'
-                        name="password"
-                        type="password"
-                        value={password}
-                        onChange={(e) => handleChange(e, formState)}
-                    />
-                </Form.Field>
-                <Message
-                    error
-                    list={errorList}
-                />
-                <Button onClick={onSubmit}>Login</Button>
-            </Form>
+            <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+                <Grid.Column style={{ maxWidth: 450 }}>
+                    <Header as='h2' color='teal' textAlign='center'>
+                        <Image src={slackLogo} /> Log-in to your account
+                     </Header>
+                    <Form size='large' error={!!errorList.length}>
+                        <Segment stacked>
+                            <Form.Input
+                                error={!!formState.emailError}
+                                fluid
+                                icon='user'
+                                iconPosition='left'
+                                placeholder='E-mail address'
+                                name="email"
+                                value={email}
+                                onChange={(e) => handleChange(e, formState)}
+                            />
+                            <Form.Input
+                                error={!!formState.passwordError}
+                                fluid
+                                icon='lock'
+                                iconPosition='left'
+                                placeholder='Password'
+                                type='password'
+                                name="password"
+                                value={password}
+                                onChange={(e) => handleChange(e, formState)}
+                            />
+                            <Button
+                                color='teal'
+                                fluid size='large'
+                                onClick={onSubmit}
+                            >
+                                Login
+                             </Button>
+                        </Segment>
+                        <Message
+                            error
+                            list={errorList}
+                        />
+                    </Form>
+                    <Message>
+                        New to us? <a href='/register'>Register</a>
+                    </Message>
+                </Grid.Column>
+            </Grid>
         </Container>
     );
 });

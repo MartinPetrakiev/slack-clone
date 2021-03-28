@@ -54,7 +54,7 @@ function Routes() {
     return (
         <Router history={history}>
             <Switch>
-                <PrivateRoute exact path="/client" component={Home} />
+                <PrivateRoute exact path="/client/:teamKey?" component={Home} />
                 <PrivateRoute exact path="/team-select" component={TeamSelect} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/login" component={Login} />

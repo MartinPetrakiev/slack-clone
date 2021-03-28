@@ -62,6 +62,10 @@
         overflow: hidden;
         white-space: nowrap;
     }
+    div {
+        display: flex;
+        align-items: center;
+    }
     svg:nth-child(2) {
         font-size: 20px;
         width: 26px;
@@ -111,14 +115,13 @@
     }
 }
 .channels_list {
+
     div:hover {
         background-color: #350D36;
     }
     div {
-        display: flex;
-        align-items: center;
         height: 28px;
-        padding: 0 16px 0 34px;
+        padding: 3px 16px 0 34px;
         width: 230px;
         overflow:hidden;
         display:inline-block;
@@ -126,10 +129,9 @@
         white-space: nowrap;
     }
     i {
-        font-size: 20px;
         height: 20px;
         width: 20px;
-        margin-left: -2px;
+        margin-right: 8px;
     }
 }
 

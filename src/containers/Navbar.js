@@ -1,5 +1,5 @@
 import React from 'react';
-import UserMenuModal from '../containers/UserMenuModal';
+import UserMenuModal from '../components/UserMenuModal';
 import { Input, Modal, Popup } from 'semantic-ui-react';
 import { Search } from '@material-ui/icons';
 import styles from '../styles/Navbar.module.scss';
