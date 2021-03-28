@@ -45,11 +45,14 @@ function Home(props) {
         if (e.target.id) {
             setChannelKey({ channelKey: e.target.id });
         }
+        if(e.target.parentNode.id) {
+            setChannelKey({ channelKey: e.target.parentNode.id });
+        }
     };
 
     return (
         <div className="Home">
-            <Navbar />
+            <Navbar history={props.history}/>
             <div className="Workspace">
                 <Sidebar selectChannel={selectChannel} team={data} history={props.history} />
                 <Chat channelKey={channelKey.channelKey} />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { observable, action } from "mobx";
 import { observer } from "mobx-react";
 import slackLogo from '../styles/slack-logo.png';
-import { Button, Container, Form, Header, Message, Grid, Image, Segment } from 'semantic-ui-react';
+import { Button, Form, Header, Message, Grid, Image, Segment } from 'semantic-ui-react';
 import { gql, useMutation } from '@apollo/client';
 
 const LOGIN_MUTATION = gql`
@@ -81,7 +81,6 @@ const Login = observer((props) => {
     }
 
     return (
-        <Container text>
             <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
                 <Grid.Column style={{ maxWidth: 450 }}>
                     <Header as='h2' color='teal' textAlign='center'>
@@ -128,7 +127,6 @@ const Login = observer((props) => {
                     </Message>
                 </Grid.Column>
             </Grid>
-        </Container>
     );
 });
 

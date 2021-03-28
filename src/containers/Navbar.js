@@ -5,7 +5,7 @@ import { Search } from '@material-ui/icons';
 import styles from '../styles/Navbar.module.scss';
 import decode from 'jwt-decode';
 
-function Navbar() {
+function Navbar({history}) {
     let username = '';
     try {
         const token = localStorage.getItem('token');
@@ -37,7 +37,7 @@ function Navbar() {
 
             <div className={styles.nav_right}>
                 <Popup
-                    trigger={<div><UserMenuModal /></div>}
+                    trigger={<div><UserMenuModal history={history}/></div>}
                     content={username}
                     position='bottom right'
                     style={popupStyle}

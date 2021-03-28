@@ -13,6 +13,7 @@ import Register from './Register';
 import Login from './Login';
 import CreateTeam from './CreateTeam';
 import TeamSelect from './TeamSelect';
+import Welcome from './Welcome';
 
 const history = createBrowserHistory();
 
@@ -54,6 +55,7 @@ function Routes() {
     return (
         <Router history={history}>
             <Switch>
+                <Route exact path="/" component={Welcome} />
                 <PrivateRoute exact path="/client/:teamKey?" component={Home} />
                 <PrivateRoute exact path="/team-select" component={TeamSelect} />
                 <Route exact path="/register" component={Register} />

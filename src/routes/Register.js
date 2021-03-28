@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Container, Form, Header, Message } from 'semantic-ui-react';
+import { Button, Form, Header, Message, Grid, Image, Segment } from 'semantic-ui-react';
+import slackLogo from '../styles/slack-logo.png';
 import { useMutation, gql } from '@apollo/client';
 
 const REGISTER_MUTATION = gql`
@@ -104,28 +105,73 @@ function Register(props) {
     }
 
     return (
-        <Container text>
-            <Header as='h2'>Register</Header>
-            <Form error={!!errorList.length}>
-                <Form.Field>
-                    <Form.Input error={!!usernameError} fluid label='Username' placeholder='Username...' name="username" value={username} onChange={handleChange} />
-                </Form.Field>
-                <Form.Field>
-                    <Form.Input error={!!emailError} fluid label='Email' placeholder='Email...' name="email" value={email} onChange={handleChange} />
-                </Form.Field>
-                <Form.Field>
-                    <Form.Input error={!!passwordError} fluid label='Password' placeholder='Password...' name="password" type="password" value={password} onChange={handleChange} />
-                </Form.Field>
-                <Form.Field>
-                    <Form.Input error={!!rePasswordError} fluid label='Password Confirmation' placeholder='Confirm password...' name="rePassword" type="password" value={rePassword} onChange={handleChange} />
-                </Form.Field>
-                <Message
-                    error
-                    list={errorList}
-                />
-                <Button onClick={onSubmit}>Register</Button>
-            </Form>
-        </Container>
+        <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
+            <Grid.Column style={{ maxWidth: 450 }}>
+                <Header as='h2' color='teal' textAlign='center'>
+                    <Image src={slackLogo} /> Register
+                             </Header>
+                <Form size='large' error={!!errorList.length}>
+                    <Segment stacked>
+                        <Form.Input
+                            error={!!usernameError}
+                            fluid
+                            icon='user'
+                            iconPosition='left'
+                            placeholder='Username'
+                            name="username"
+                            value={username}
+                            onChange={handleChange}
+                        />
+                        <Form.Input
+                            error={!!emailError}
+                            fluid
+                            icon='mail'
+                            iconPosition='left'
+                            placeholder='Email'
+                            name="email"
+                            value={email}
+                            onChange={handleChange}
+                        />
+                        <Form.Input
+                            error={!!passwordError}
+                            fluid
+                            icon='lock'
+                            iconPosition='left'
+                            placeholder='Password'
+                            type='password'
+                            name="password"
+                            value={password}
+                            onChange={handleChange}
+                        />
+                        <Form.Input
+                            error={!!rePasswordError}
+                            fluid
+                            icon='lock'
+                            iconPosition='left'
+                            placeholder='Confirm password'
+                            type='password'
+                            name="rePassword"
+                            value={rePassword}
+                            onChange={handleChange}
+                        />
+                        <Button
+                            color='teal'
+                            fluid size='large'
+                            onClick={onSubmit}
+                        >
+                            Register
+                                     </Button>
+                    </Segment>
+                    <Message
+                        error
+                        list={errorList}
+                    />
+                </Form>
+                <Message>
+                    Already have account? <a href='/login'>Login</a>
+                </Message>
+            </Grid.Column>
+        </Grid>
     );
 }
 

@@ -21,11 +21,20 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-function UserMenuModal() {
+function UserMenuModal({ history }) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+    };
+
+    const openProfile = () => {
+
+    };
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        history.push('/login');
     };
 
     const handleClose = () => {
@@ -33,7 +42,7 @@ function UserMenuModal() {
     };
 
     return (
-        <div >
+        <div>
             <StyledBadge
                 overlap="circle"
                 anchorOrigin={{
@@ -50,7 +59,6 @@ function UserMenuModal() {
                     }}
                     alt=""
                     // src={user?.photoURL}
-                    // alt={user?.displayName}
                     onClick={handleClick}
                 />
             </StyledBadge>
@@ -64,14 +72,14 @@ function UserMenuModal() {
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'center',
-                  }}
-                  transformOrigin={{
+                }}
+                transformOrigin={{
                     vertical: 'top',
                     horizontal: 'right',
-                  }}
+                }}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={openProfile}>Profile</MenuItem>
+                <MenuItem onClick={logout} >Logout</MenuItem>
             </Menu>
         </div>
     );
