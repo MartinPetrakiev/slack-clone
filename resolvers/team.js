@@ -4,14 +4,15 @@ import requiresAuth from '../permissions';
 export default {
     Query: {
         allTeams: requiresAuth.createResolver(async (parent, args, { models, user }) =>
-            models.team.findAll({ where: { owner: user.id } }, { raw: true })),
+            models.team.findAll({ where: { owner: 1} }, { raw: true })),
         getTeam: requiresAuth.createResolver(async (parent, { teamKey }, { models }) =>
             models.team.findOne({ where: { teamKey: teamKey } }, { raw: true })),
     },
     Mutation: {
         createTeam: requiresAuth.createResolver(async (parent, args, { models, user }) => {
             try {
-                await models.team.create({ ...args, owner: user.id });
+                const team = await models.team.create({ ...args, owner: user.id });
+                await models.channel.create({ name: 'General', public: true, teamId: team.id });
                 return {
                     ok: true
                 };
@@ -25,6 +26,6 @@ export default {
         }),
     },
     Team: {
-        channels: ({ id }, args, { models }) => models.channel.findAll({ teamId: id }),
+        channels: ({ id }, args, { models }) => models.channel.findAll({where: { teamId: id }}),
     }
 };

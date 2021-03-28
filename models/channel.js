@@ -16,6 +16,7 @@ export function Channel(sequelize) {
         },
         public: {
             type: DataTypes.BOOLEAN,
+            defaultValue: true,
         }
     });
     return Channel;
