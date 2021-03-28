@@ -1,25 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_TEAM_QUERY } from '../graphql/quereis';
 import Navbar from '../containers/Navbar';
 import Sidebar from '../containers/Sidebar';
 import Chat from '../containers/Chat';
 import { useHistory, useParams } from 'react-router';
-
-const GET_TEAM_QUERY = gql`
-query($teamKey:String!){
-    getTeam(teamKey:$teamKey) {
-    id
-    name
-    channels{
-        id
-      channelKey
-      topic
-    }
-  }
-
-}
-`;
-
 
 function Home(props) {
     const [channelKey, setChannelKey] = useState('');

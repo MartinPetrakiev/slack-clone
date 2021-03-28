@@ -1,19 +1,8 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_ALL_TEAMS_QUERY } from '../graphql/quereis';
 import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import styles from '../styles/TeamSelect.module.scss';
-
-const GET_ALL_TEAMS_QUERY = gql`
-    {
-         allTeams{
-            id
-            teamKey
-            name
-          }
-
-    }
-`;
-
 
 function TeamSelect(props) {
     const { loading, error, data, refetch } = useQuery(GET_ALL_TEAMS_QUERY);

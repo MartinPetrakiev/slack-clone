@@ -1,19 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Header, Message, Grid, Image, Segment } from 'semantic-ui-react';
 import slackLogo from '../styles/slack-logo.png';
-import { useMutation, gql } from '@apollo/client';
-
-const REGISTER_MUTATION = gql`
-    mutation($username: String!, $email: String!, $password: String!) {
-        register(username: $username, email: $email, password: $password) {
-            ok
-            errors {
-                path
-                message
-            }
-        }
-      }
-`;
+import { useMutation } from '@apollo/client';
+import { REGISTER_MUTATION } from '../graphql/mutations';
 
 function Register(props) {
     const [register] = useMutation(REGISTER_MUTATION);

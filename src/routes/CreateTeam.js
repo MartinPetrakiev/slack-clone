@@ -1,29 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Header, Message } from 'semantic-ui-react';
-import { gql, useMutation } from '@apollo/client';
-
-const CREAT_TEAM_MUTATION = gql`
-    mutation($name:String!) {
-        createTeam( name: $name){
-          ok
-          errors {
-            path
-            message
-          }
-        }
-      }
-`;
-
-const GET_ALL_TEAMS_QUERY = gql`
-    {
-         allTeams{
-            id
-            teamKey
-            name
-          }
-
-    }
-`;
+import { useMutation } from '@apollo/client';
+import { CREAT_TEAM_MUTATION } from '../graphql/mutations';
 
 function CreateTeam(props) {
     const [createTeam] = useMutation(CREAT_TEAM_MUTATION);

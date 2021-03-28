@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import {ALL_CHANNELS_QUERY } from '../graphql/quereis';
 import MainOptions from '../components/MainOptions';
 import AddChannelModal from '../components/AddChannelModal';
 import { loadCalendar } from '../googleCalendar';
@@ -15,28 +16,6 @@ import {
 } from '@material-ui/icons';
 import styles from '../styles/Sidebar.module.scss';
 
-const ALL_CHANNELS_QUERY = gql`
-query($teamId:String!){
-    allChannels(teamId:$teamId) {
-      id
-      channelKey
-      name
-    }
-  }
-`;
-
-// const CREATE_CHANNEL_MUTATION = gql`
-// mutation($teamId:String!,$name:String!,$topic:String) {
-//     createChannel(teamId:$teamId,name:$name, topic:$topic) {
-//       ok
-//       channelData{
-//         channelKey
-//         name
-//         topic
-//       }
-//     }
-//   }
-// `;
 
 function Sidebar({ teamChannels, selectChannel, history }) {
     const { name: teamName, id: teamId } = teamChannels.getTeam;

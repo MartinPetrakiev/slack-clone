@@ -1,7 +1,8 @@
 import { AddBox } from '@material-ui/icons';
 import React, { useReducer } from 'react';
 import { Button, Form, Header, Modal } from 'semantic-ui-react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { CREATE_CHANNEL_MUTATION } from '../graphql/mutations';
 
 function reducer(state, action) {
     switch (action.type) {
@@ -14,15 +15,7 @@ function reducer(state, action) {
     }
 }
 
-const CREATE_CHANNEL_MUTATION = gql`
-mutation($teamId:Int!,$name:String!,$topic:String){
-    createChannel(teamId:$teamId,name:$name,topic:$topic){
-        ok
-    }
-  }
-`;
-
-function AddChannelModal({teamId, refetch}) {
+function AddChannelModal({ teamId, refetch }) {
     const [state, dispatch] = useReducer(reducer, {
         open: false,
     });
@@ -66,7 +59,7 @@ function AddChannelModal({teamId, refetch}) {
         >
             <Header icon="pencil" content="Create a channel" as="h2" />
             <Modal.Content>
-                <Form.Input label="Name" type="text" placeholder="# e.g. budget-talks ..." name="channelName" />
+                <Form.Input required={true} label="Name" type="text" placeholder="# e.g. budget-talks ..." name="channelName" />
                 <Form.Input label="Topic" type="text" placeholder="anything useful ..." name="topic" />
             </Modal.Content>
             <Modal.Actions>

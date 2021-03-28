@@ -2,30 +2,11 @@ import { InfoOutlined } from '@material-ui/icons';
 import React, { useEffect, useRef } from 'react';
 import ChatInput from '../components/ChatInput';
 import Message from '../components/Message';
-import { gql, useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
+import { GET_CHANNEL_MESSAGES_QUERY } from '../graphql/quereis';
 import AddTopicModal from '../components/AddTopicModal';
 import { Icon } from 'semantic-ui-react';
 import styles from '../styles/Chat.module.scss';
-
-const GET_CHANNEL_MESSAGES_QUERY = gql`
-query($channelKey:String!){
-    getChannel(channelKey:$channelKey) {
-         name
-         topic
-         messages{
-            id
-            msgKey
-            text
-            createdAt
-            user{
-              id
-              userKey
-              username
-            }
-          }
-    }
-  }
-`;
 
 function Chat({ channelKey }) {
     const chatRef = useRef(null);

@@ -3,21 +3,8 @@ import { observable, action } from "mobx";
 import { observer } from "mobx-react";
 import slackLogo from '../styles/slack-logo.png';
 import { Button, Form, Header, Message, Grid, Image, Segment } from 'semantic-ui-react';
-import { gql, useMutation } from '@apollo/client';
-
-const LOGIN_MUTATION = gql`
-    mutation($email:String!, $password:String!) {
-        login( email: $email, password: $password){
-          ok
-          token
-          refreshToken,
-          errors {
-            path
-            message
-          }
-        }
-      }
-`;
+import { useMutation } from '@apollo/client';
+import { LOGIN_MUTATION } from '../graphql/mutations';
 
 const Login = observer((props) => {
     const [login] = useMutation(LOGIN_MUTATION);
