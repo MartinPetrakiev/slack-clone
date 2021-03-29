@@ -21,7 +21,7 @@ function AddPeopleModal({ teamId, refetch }) {
     });
     const [addMember] = useMutation(ADD_TEAM_MEMBER_MUTATION);
     const { open } = state;
-    const addChannel = async (e) => {
+    const addUser = async (e) => {
         e.preventDefault();
         const email = e.target.email.value;
         let res;
@@ -51,7 +51,7 @@ function AddPeopleModal({ teamId, refetch }) {
             onOpen={() => dispatch({ type: 'OPEN_MODAL' })}
             onClose={() => dispatch({ type: 'CLOSE_MODAL' })}
             trigger={<span><AddBox />Add Team Member</span>}
-            onSubmit={e => addChannel(e)}
+            onSubmit={e => addUser(e)}
             size="tiny"
         >
             <Header icon="add user" content="Add People to your Team" as="h2" />
