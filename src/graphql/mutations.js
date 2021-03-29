@@ -46,10 +46,23 @@ const CREAT_TEAM_MUTATION = gql`
       }
 `;
 
-export {
-    REGISTER_MUTATION,
-    LOGIN_MUTATION,
-    CREATE_CHANNEL_MUTATION,
-    CREAT_TEAM_MUTATION,
+const ADD_TEAM_MEMBER_MUTATION = gql`
+  mutation($email: String!, $teamId: Int!) {
+    addTeamMember(email: $email, teamId: $teamId) {
+      ok
+      errors {
+        path
+        message
+      }
+    }
+  }
+`;
 
-}
+export {
+  ADD_TEAM_MEMBER_MUTATION,
+  REGISTER_MUTATION,
+  LOGIN_MUTATION,
+  CREATE_CHANNEL_MUTATION,
+  CREAT_TEAM_MUTATION,
+
+};

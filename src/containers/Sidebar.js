@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import {ALL_CHANNELS_QUERY } from '../graphql/quereis';
+import { ALL_CHANNELS_QUERY } from '../graphql/quereis';
 import MainOptions from '../components/MainOptions';
 import AddChannelModal from '../components/AddChannelModal';
+import AddPeopleModal from '../components/AddPeopleModal';
 import { loadCalendar } from '../googleCalendar';
 import { Popup } from 'semantic-ui-react';
 import {
@@ -112,7 +113,7 @@ function Sidebar({ teamChannels, selectChannel, history }) {
                                 );
                             })}
                             <div className={styles.add_channel_button}>
-                                 <AddChannelModal teamId={teamId} refetch={refetch}/>
+                                <AddChannelModal teamId={teamId} refetch={refetch} />
                             </div>
                         </div>
                     </div>)
@@ -124,6 +125,13 @@ function Sidebar({ teamChannels, selectChannel, history }) {
                     </div>
                     </div>)
                 }
+                <div className={styles.member}>
+                    <AddPeopleModal
+                        teamId={teamId}
+                        key="invite-people-modal"
+                        refetch={refetch}
+                    />
+                </div>
                 <button onClick={loadCalendar}>Calendar</button>
             </div>
         </div>
