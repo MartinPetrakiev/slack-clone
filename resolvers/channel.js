@@ -9,21 +9,34 @@ export default {
             models.channel.findOne({ where: { channelKey: args.channelKey } }, { raw: true }),
     },
     Mutation: {
-        createChannel: async (paranet, args, { models }) => {
+        createChannel: requiresAuth.createResolver(async (parent, args, { models, user }) => {
             try {
-                const channel = await models.channel.create(args);
+              const team = await models.team.findOne({ where: { id: args.teamId } }, { raw: true });
+              if (team.owner !== user.id) {
                 return {
-                    ok: true,
-                    channel
+                  ok: false,
+                  errors: [
+                    {
+                      path: 'name',
+                      message: 'You have to be the owner of the team to create channels',
+                    },
+                  ],
                 };
+              }
+      
+              const channel = await models.channel.create(args);
+              return {
+                ok: true,
+                channel,
+              };
             } catch (err) {
-                console.log(err);
-                return {
-                    ok: true,
-                    errors: formatErrors(err)
-                };
+              console.log(err);
+              return {
+                ok: false,
+                errors: formatErrors(err, models),
+              };
             }
-        }
+          }),
     },
     Channel: {
         messages: async ({ id }, args, { models }) => {

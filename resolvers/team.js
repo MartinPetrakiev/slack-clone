@@ -1,10 +1,17 @@
 import formatErrors from '../formatErrors';
 import requiresAuth from '../permissions';
-
+import sequelize from '../models/index';
+import { Sequelize } from 'sequelize';
+const Op = Sequelize.Op;
 export default {
     Query: {
         allTeams: requiresAuth.createResolver(async (parent, args, { models, user }) =>
-            models.team.findAll({ where: { owner: 1 } }, { raw: true })),
+            models.team.findAll({
+                where: {
+                    [Op.or]: [{ owner: user.id, }, { id: user.id, },],
+                },
+                include: [{ model: models.user, },],
+            }, { raw: true })),
         getTeam: requiresAuth.createResolver(async (parent, { teamKey }, { models }) =>
             models.team.findOne({ where: { teamKey: teamKey } }, { raw: true })),
     },
@@ -14,7 +21,7 @@ export default {
                 const teamPromise = models.team.findOne({ where: { id: teamId } }, { raw: true });
                 const userToAddPromise = models.user.findOne({ where: { email } }, { raw: true });
                 const [team, userToAdd] = await Promise.all([teamPromise, userToAddPromise]);
-                if (team.owner !== 1) {
+                if (team.owner !== user.id) {
                     return {
                         ok: false,
                         errors: [{ path: 'email', message: 'You cannot add members to the team' }],
@@ -34,22 +41,26 @@ export default {
                 console.log(err);
                 return {
                     ok: false,
-                    errors: formatErrors(err),
+                    errors: formatErrors(err, models),
                 };
             }
         }),
         createTeam: requiresAuth.createResolver(async (parent, args, { models, user }) => {
             try {
-                const team = await models.team.create({ ...args, owner: user.id });
-                await models.channel.create({ name: 'General', public: true, teamId: team.id });
+                const response = await sequelize.transaction(async () => {
+                    const team = await models.team.create({ ...args, owner: user.id });
+                    await models.channel.create({ name: 'General', public: true, teamId: team.id });
+                    return team;
+                });
                 return {
-                    ok: true
+                    ok: true,
+                    team: response,
                 };
             } catch (err) {
                 console.log(err);
                 return {
                     ok: false,
-                    errors: formatErrors(err)
+                    errors: formatErrors(err, models),
                 };
             }
         }),

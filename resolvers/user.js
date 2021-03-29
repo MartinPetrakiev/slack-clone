@@ -1,6 +1,5 @@
 import { tryLogin } from '../auth';
 import formatErrors from '../formatErrors';
-import { v4 as uuidv4} from 'uuid';
 
 export default {
     Query: {
