@@ -1,7 +1,8 @@
 import Sequelize from 'sequelize';
 import { applyExtraSetup } from './extra-setup';
+import { password } from '../config';
 
-const sequelize = new Sequelize('slack', 'postgres', 'HowdySir1!', {
+const sequelize = new Sequelize('slack', 'postgres', password, {
     dialect: 'postgres',
 	define: {
 		underscored: true,
@@ -13,6 +14,7 @@ const modelDefiners = [
 	require('./team').Team,
 	require('./channel').Channel,
 	require('./message').Message,
+	require('./member').Member,
 ];
 
 // We define all models according to their files.

@@ -1,4 +1,5 @@
 import express from 'express';
+import { PORT, SECRET, SECRET2 } from './config';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import path from 'path';
@@ -9,9 +10,7 @@ import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import { refreshTokens } from './auth';
 
-const PORT = 8080;
-const SECRET = 'asdasgsdgasdasd';
-const SECRET2 = 'asdasgsdgasdasdasdasdasdasdads';
+
 const app = express();
 
 const corsOptions = {

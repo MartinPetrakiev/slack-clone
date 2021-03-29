@@ -18,8 +18,13 @@ export default `
         getTeam(teamKey: String!): Team!
     }
 
+    type VoidResponse {
+      ok: Boolean!
+      errors: [Error!]
+    }
 
      type Mutation {
        createTeam(name: String!): CreateTeamResponse!
+       addTeamMember(email: String!, teamId: Int!): VoidResponse!
      }
 `;

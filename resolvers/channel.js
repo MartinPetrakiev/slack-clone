@@ -12,9 +12,9 @@ export default {
         createChannel: async (paranet, args, { models }) => {
             try {
                 const channel = await models.channel.create(args);
-                console.log(channel);
                 return {
                     ok: true,
+                    channel
                 };
             } catch (err) {
                 console.log(err);
@@ -32,7 +32,10 @@ export default {
                 return messages;
             } catch (error) {
                 console.log(error);
-                return false;
+                return {
+                    ok: false,
+                    errors: formatErrors(error)
+                };
             }
         },
     },

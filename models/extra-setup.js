@@ -1,35 +1,54 @@
 function applyExtraSetup(sequelize) {
-	const { user, team, message, channel } = sequelize.models;
+	const { user, team, message, channel, member } = sequelize.models;
 
 	user.belongsToMany(team, {
-		through: 'member',
-		foreignKey: 'userId'
+		through: member,
+		foreignKey: {
+			name: 'userId',
+			field: 'user_id',
+		},
 	});
-	user.belongsToMany(team, {
+	user.belongsToMany(channel, {
 		through: 'channel_member',
-		foreignKey: 'userId'
+		foreignKey: {
+			name: 'userId',
+			field: 'user_id',
+		},
 	});
 	team.belongsToMany(user, {
-		through: 'member',
-		foreignKey: 'teamId'
+		through: member,
+		foreignKey: {
+			name: 'teamId',
+			field: 'team_id',
+		},
 	});
 	team.belongsTo(user, {
-		foreignKey: {
-			name: 'owner'
-		}
+		foreignKey: 'owner',
 	});
 	message.belongsTo(channel, {
-		foreignKey: 'channelId'
+		foreignKey: {
+			name: 'channelId',
+			field: 'channel_id',
+		},
 	});
 	message.belongsTo(user, {
-		foreignKey: 'userId'
+		foreignKey: {
+			name: 'userId',
+			field: 'user_id',
+		},
 	});
 	channel.belongsTo(team, {
-		foreignKey: 'teamId'
+		foreignKey: {
+			name: 'teamId',
+			field: 'team_id',
+		},
 	});
 	channel.belongsToMany(user, {
 		through: 'channel_member',
-		foreignKey: 'channelId'
+		foreignKey: {
+			name: 'channelId',
+			field: 'channel_id',
+		},
 	});
 
 }
