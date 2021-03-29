@@ -4,7 +4,7 @@ import { ALL_CHANNELS_QUERY } from '../graphql/quereis';
 import MainOptions from '../components/MainOptions';
 import AddChannelModal from '../components/AddChannelModal';
 import AddPeopleModal from '../components/AddPeopleModal';
-import { loadCalendar } from '../googleCalendar';
+// import { loadCalendar } from '../googleCalendar';
 import { Popup } from 'semantic-ui-react';
 import {
     ArrowDropDownRounded,
@@ -16,9 +16,10 @@ import {
     MoreVert
 } from '@material-ui/icons';
 import styles from '../styles/Sidebar.module.scss';
+import { useHistory } from 'react-router';
 
 
-function Sidebar({ teamChannels, selectChannel, history }) {
+function Sidebar({ teamChannels, selectChannel }) {
     const { name: teamName, id: teamId } = teamChannels.getTeam;
     const [expandMainOptions, setExpandMainOptions] = useState(false);
     const [expandChannels, setexpandChannels] = useState(true);
@@ -27,7 +28,7 @@ function Sidebar({ teamChannels, selectChannel, history }) {
             teamId: teamId
         }
     });
-
+    const history = useHistory();
     const collapseHandle = (e) => {
         const currTarget = e.currentTarget.id;
         if (expandMainOptions && currTarget === "main_collapse") {
@@ -46,13 +47,6 @@ function Sidebar({ teamChannels, selectChannel, history }) {
         history.push('/team-select');
     };
 
-
-    const popupStyle = {
-        borderRadius: '10px',
-        fontSize: '12px',
-        fontWeight: '600'
-    };
-
     return (
         <div className={styles.container}>
             <div>
@@ -63,7 +57,11 @@ function Sidebar({ teamChannels, selectChannel, history }) {
                             trigger={<div><ExpandMoreRounded onClick={selectTeam} /></div>}
                             content={teamName}
                             position='bottom right'
-                            style={popupStyle}
+                            style={{
+                                borderRadius: '10px',
+                                fontSize: '12px',
+                                fontWeight: '600'
+                            }}
                             inverted
                             size='mini'
                         />
@@ -125,14 +123,15 @@ function Sidebar({ teamChannels, selectChannel, history }) {
                     </div>
                     </div>)
                 }
-                <div className={styles.member}>
+                <div className={styles.members_list}>Team Members</div>
+                <div className={styles.add_member}>
                     <AddPeopleModal
                         teamId={teamId}
                         key="invite-people-modal"
                         refetch={refetch}
                     />
                 </div>
-                <button onClick={loadCalendar}>Calendar</button>
+                {/* <button onClick={loadCalendar}>Calendar</button> */}
             </div>
         </div>
     );

@@ -49,9 +49,9 @@ function Home(props) {
 
     return (
         <div className="Home">
-            <Navbar history={props.history} />
+            <Navbar/>
             <div className="Workspace">
-                <Sidebar selectChannel={selectChannel} teamChannels={data} history={props.history} />
+                <Sidebar selectChannel={selectChannel} teamChannels={data} />
                 <Chat channelKey={channelKey.channelKey} />
             </div>
         </div>

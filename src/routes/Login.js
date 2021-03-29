@@ -37,7 +37,10 @@ const Login = observer((props) => {
             if (ok) {
                 localStorage.setItem('token', token);
                 localStorage.setItem('refreshToken', refreshToken);
-                props.history.push('/team-select');
+                props.history.push({
+                    pathname: '/team-select',
+                    state: { refetch: true }
+                });
             } else {
                 //add errors to state
                 (action(state => {

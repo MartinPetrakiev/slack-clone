@@ -146,4 +146,29 @@
         margin-left: -5px;
     }
 }
+.members_list {
+    border-top: 1px solid rgb(82,38,83);
+    height: 30px;
+    font-size: 15px;
+    padding: 3px 16px 0 34px;
+}
+
+.add_member {
+    height: 28px;
+    padding: 3px 16px 0 34px;
+    font-size: 13px;
+    &:hover {
+        background-color: #350D36;
+    }
+
+    span {
+        display: flex;
+        align-items: center;
+        svg {
+            font-size: 18px;
+            margin-right: 4px;
+            margin-left: -5px;
+        }
+    }
+}
 

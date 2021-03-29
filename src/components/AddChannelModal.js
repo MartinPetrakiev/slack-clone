@@ -1,5 +1,5 @@
 import { AddBox } from '@material-ui/icons';
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Button, Form, Header, Modal } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import { CREATE_CHANNEL_MUTATION } from '../graphql/mutations';
@@ -17,8 +17,9 @@ function reducer(state, action) {
 
 function AddChannelModal({ teamId, refetch }) {
     const [state, dispatch] = useReducer(reducer, {
-        open: false,
+        open: false
     });
+    const [errorsState, setErrors] = useState({});
     const [createChannel] = useMutation(CREATE_CHANNEL_MUTATION);
     const { open } = state;
     const addChannel = async (e) => {
@@ -35,18 +36,29 @@ function AddChannelModal({ teamId, refetch }) {
                 }
             });
         } catch (error) {
-            console.log([error]);
+            console.log(error);
+            return;
         }
         const { ok, errors } = res.data.createChannel;
         if (ok) {
             console.log('channel added');
-            dispatch({ type: 'CLOSE_MODAL' });
             refetch();
+            dispatch({ type: 'CLOSE_MODAL' });
         } else {
-            console.log([errors]);
+            console.log(errors);
+            const err = {};
+            errors.forEach(({ path, message }) => {
+                err[`${path}Error`] = message;
+            });
+            setErrors((oldState) => ({ ...oldState, ...err }));
         }
     };
 
+    const errorList = [];
+
+    if (errorsState.nameError) {
+        errorList.push(errorsState.nameError);
+    }
     return (
         <Modal
             as={Form}
@@ -62,6 +74,10 @@ function AddChannelModal({ teamId, refetch }) {
                 <Form.Input required={true} label="Name" type="text" placeholder="# e.g. budget-talks ..." name="channelName" />
                 <Form.Input label="Topic" type="text" placeholder="anything useful ..." name="topic" />
             </Modal.Content>
+            {!!errorList.length &&
+                (<p style={{ paddingLeft: '20px', color: 'red' }}>
+                   { errorList[0]}
+                </p>)}
             <Modal.Actions>
                 <Button type="button" onClick={() => dispatch({ type: 'CLOSE_MODAL' })} color="red" icon="times" content="Close" />
                 <Button type="submit" color="green" icon="add" content="Add" value="add" />

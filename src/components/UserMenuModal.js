@@ -3,6 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from "@material-ui/core/styles";
 import { Avatar, Badge } from '@material-ui/core';
+import { useHistory } from 'react-router';
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -21,9 +22,9 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-function UserMenuModal({ history }) {
+function UserMenuModal() {
     const [anchorEl, setAnchorEl] = useState(null);
-
+    const history = useHistory();
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/Message.module.scss';
 
-function Message({ message, timestamp, user, userImage }) {
+function Message({ message, timestamp, user }) {
     return (
         <div className={styles.container}>
             <div className={styles.inner_container}>

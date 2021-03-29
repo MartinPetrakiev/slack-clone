@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { AddBox } from '@material-ui/icons';
+import { PersonAdd } from '@material-ui/icons';
 import { Button, Form, Header, Modal } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import { ADD_TEAM_MEMBER_MUTATION } from '../graphql/mutations';
@@ -50,7 +50,7 @@ function AddPeopleModal({ teamId, refetch }) {
             open={open}
             onOpen={() => dispatch({ type: 'OPEN_MODAL' })}
             onClose={() => dispatch({ type: 'CLOSE_MODAL' })}
-            trigger={<span><AddBox />Add Team Member</span>}
+            trigger={<span><PersonAdd />Add Team Member</span>}
             onSubmit={e => addUser(e)}
             size="tiny"
         >

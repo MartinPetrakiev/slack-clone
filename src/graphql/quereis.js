@@ -7,7 +7,6 @@ const GET_ALL_TEAMS_QUERY = gql`
             teamKey
             name
           }
-
     }
 `;
 

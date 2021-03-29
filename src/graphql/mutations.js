@@ -30,6 +30,10 @@ const CREATE_CHANNEL_MUTATION = gql`
 mutation($teamId:Int!,$name:String!,$topic:String){
     createChannel(teamId:$teamId,name:$name,topic:$topic){
         ok
+        errors {
+          path
+          message
+        }
     }
   }
 `;

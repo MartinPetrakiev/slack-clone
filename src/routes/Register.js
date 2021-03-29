@@ -63,7 +63,7 @@ function Register(props) {
                     errors.forEach(({ path, message }) => {
                         err[`${path}Error`] = message;
                     });
-                    setformState({ ...formState, ...err });
+                    setformState((oldState) => ({...oldState, ...err}));
                 }
                 console.log(res);
             } catch (error) {
@@ -75,7 +75,7 @@ function Register(props) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setformState(state => ({ ...state, [name]: value }));
+        setformState(oldState => ({ ...oldState, [name]: value }));
     };
 
     const errorList = [];
