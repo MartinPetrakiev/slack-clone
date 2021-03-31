@@ -35,22 +35,26 @@ query($teamId:String!){
   }
 `;
 
-const GET_CHANNEL_MESSAGES_QUERY = gql`
+const GET_CHANNEL_QUERY = gql`
 query($channelKey:String!){
     getChannel(channelKey:$channelKey) {
+        id
          name
          topic
-         messages{
-            id
-            msgKey
-            text
-            createdAt
-            user{
-              id
-              userKey
-              username
-            }
-          }
+    }
+  }
+`;
+
+const GET_CHANNEL_MESSAGES_QUERY = gql`
+  query($channelId: Int!) {
+    messages(channelId: $channelId) {
+      id
+      msgKey
+      text
+      user {
+        username
+      }
+      createdAt
     }
   }
 `;
@@ -60,5 +64,6 @@ export {
   GET_ALL_TEAMS_QUERY,
   GET_TEAM_QUERY,
   ALL_CHANNELS_QUERY,
+  GET_CHANNEL_QUERY,
   GET_CHANNEL_MESSAGES_QUERY
 };

@@ -62,11 +62,17 @@ const ADD_TEAM_MEMBER_MUTATION = gql`
   }
 `;
 
+const CREATE_MESSAGE_MUTATION = gql`
+  mutation($channelId: Int!, $text: String!) {
+    createMessage(channelId: $channelId, text: $text)
+  }
+`;
+
 export {
   ADD_TEAM_MEMBER_MUTATION,
   REGISTER_MUTATION,
   LOGIN_MUTATION,
   CREATE_CHANNEL_MUTATION,
   CREAT_TEAM_MUTATION,
-
+  CREATE_MESSAGE_MUTATION
 };
