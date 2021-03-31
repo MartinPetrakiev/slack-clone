@@ -1,6 +1,6 @@
 import express from 'express';
 import { PORT, SECRET, SECRET2 } from './config';
-import { ApolloServer, gql } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server-express';
 import { makeExecutableSchema } from 'graphql-tools';
 import path from 'path';
 import { loadFilesSync } from '@graphql-tools/load-files';
@@ -9,16 +9,18 @@ import sequelize from './models/index';
 import cors from 'cors';
 import jwt from 'jsonwebtoken';
 import { refreshTokens } from './auth';
-
+import { createServer } from 'http';
 
 const app = express();
 
+//CORS
 const corsOptions = {
   origin: "http://localhost:3000",
   credentials: true
 };
 app.use(cors(corsOptions));
 
+//Auth middleware set headers
 const addUser = async (req, res, next) => {
   const token = req.headers['x-token'];
   if (token) {
@@ -41,6 +43,7 @@ const addUser = async (req, res, next) => {
 
 app.use(addUser);
 
+//Schemas
 const typeDefs = mergeTypeDefs(loadFilesSync(path.join(__dirname, './types')));
 const resolvers = mergeResolvers(loadFilesSync(path.join(__dirname, './resolvers')));
 
@@ -49,10 +52,15 @@ const schema = makeExecutableSchema({
   resolvers,
 });
 
+
+//server
 const pathUri = '/graphql';
 const models = sequelize.models;
 const server = new ApolloServer({
-  schema, 
+  schema,
+  subscriptions: {
+    path: '/subscriptions'
+  },
   context: ({ req }) => ({
     models,
     user: req.user,
@@ -62,6 +70,9 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({ app, pathUri });
+
+const httpServer = createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
 async function assertDatabaseConnectionOk() {
   console.log(`Checking database connection...`);
@@ -80,9 +91,10 @@ async function init() {
   console.log(`Starting Sequelize + Express example on port ${PORT}...`);
   await sequelize.sync();
   console.log("All models were synchronized successfully.");
-  app.listen(PORT, () =>
-    console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`)
-  );
+  httpServer.listen(PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`);
+    console.log(`🚀 Subscriptions ready at ws://localhost:8080/subscriptions`);
+  });
 }
 
 init();

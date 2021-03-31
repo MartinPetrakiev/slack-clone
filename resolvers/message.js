@@ -3,12 +3,19 @@ import requiresAuth from '../permissions';
 
 export default {
     Query: {
-
+        messages: requiresAuth.createResolver(async (parent, { channelId }, { models }) =>
+            models.message.findAll(
+                { order: [['created_at', 'ASC']], where: { channelId } },
+                { raw: true },
+            )),
     },
     Mutation: {
-        createMessage: async (paranet, args, { models, user }) => {
+        createMessage: async (parent, args, { models, user }) => {
             try {
-                await models.message.create({ ...args, userId: 1 });
+                await models.message.create({
+                    ...args,
+                    userId: user.id,
+                });
                 return true;
             } catch (err) {
                 console.log(err);
@@ -17,7 +24,7 @@ export default {
         }
     },
     Message: {
-        user: (parent, args, { models }) => models.user.findOne({id: parent.userId}),
-        channel: (parent, args, { models }) => models.channel.findOne({id: parent.channelId}),
-    }
+        user: ({ userId }, args, { models }) =>
+            models.user.findOne({ where: { id: userId } }, { raw: true }),
+    },
 };

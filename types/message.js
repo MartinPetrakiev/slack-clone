@@ -8,8 +8,11 @@ export default `
       createdAt: String!
     }
 
+    type Query {
+      messages(channelId: Int!): [Message!]!
+    }
     
     type Mutation {
-      createMessage(channelId: String!, text: String!): Boolean!
+      createMessage(channelId: Int!, text: String!): Boolean!
     }
 `;
