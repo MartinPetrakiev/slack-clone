@@ -44,7 +44,10 @@ function Sidebar({ teamChannels, selectChannel }) {
     };
 
     const selectTeam = () => {
-        history.push('/team-select');
+        history.push({
+            pathname: '/team-select',
+            state: { refetch: true }
+        });
     };
 
     return (
