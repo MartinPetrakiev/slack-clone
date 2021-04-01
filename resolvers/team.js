@@ -8,10 +8,10 @@ export default {
         allTeams: requiresAuth.createResolver(async (parent, args, { models, user }) =>
             models.team.findAll({
                 where: {
-                    [Op.or]: [{ owner: user.id, }, { id: user.id, },],
+                    [Op.or]: [{ owner: user.id, }, { "$users.id$": user.id, },],
                 },
                 include: [{ model: models.user, },],
-            }, { raw: true })),
+            })),
         getTeam: requiresAuth.createResolver(async (parent, { teamKey }, { models }) =>
             models.team.findOne({ where: { teamKey: teamKey } }, { raw: true })),
     },

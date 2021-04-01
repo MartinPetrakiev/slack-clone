@@ -61,9 +61,9 @@ const server = new ApolloServer({
   subscriptions: {
     path: '/subscriptions'
   },
-  context: ({ req }) => ({
+  context: ({ req, connection }) => ({
     models,
-    user: req.user,
+    user: connection ? connection.context : req.user,
     SECRET,
     SECRET2
   }),
@@ -92,8 +92,8 @@ async function init() {
   await sequelize.sync();
   console.log("All models were synchronized successfully.");
   httpServer.listen(PORT, () => {
-    console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`);
-    console.log(`🚀 Subscriptions ready at ws://localhost:8080/subscriptions`);
+    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+    console.log(`🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`);
   });
 }
 
