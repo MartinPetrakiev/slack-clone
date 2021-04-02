@@ -4,16 +4,16 @@ import { Input, Modal, Popup } from 'semantic-ui-react';
 import { Search } from '@material-ui/icons';
 import styles from '../styles/Navbar.module.scss';
 import decode from 'jwt-decode';
-import { useHistory } from 'react-router';
 
 function Navbar() {
     let username = '';
+    let userId = '';
     try {
         const token = localStorage.getItem('token');
         const { user } = decode(token);
         username = user.username;
+        userId = user.id;
     } catch (error) { }
-    const history = useHistory();
     return (
         <div className={styles.container}>
             <div className={styles.nav_left}>
@@ -32,7 +32,7 @@ function Navbar() {
 
             <div className={styles.nav_right}>
                 <Popup
-                    trigger={<div><UserMenuModal history={history} /></div>}
+                    trigger={<div><UserMenuModal userId={userId} /></div>}
                     content={username}
                     position='bottom right'
                     style={{

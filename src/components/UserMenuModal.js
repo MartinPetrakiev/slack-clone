@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from "@material-ui/core/styles";
 import { Avatar, Badge } from '@material-ui/core';
 import { useHistory } from 'react-router';
+import { GET_USER_QUERY } from '../graphql/quereis';
+import { useLazyQuery } from '@apollo/client';
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -22,15 +24,42 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-function UserMenuModal() {
+function UserMenuModal({userId}) {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [getUserData, { data }] = useLazyQuery(GET_USER_QUERY, {
+        variables: {
+            id: userId
+        }
+    });
+    const [userData, setUserData] = useState({
+        id: '',
+        userKey: '',
+        username: '',
+        email: '',
+        teams: '',
+    });
     const history = useHistory();
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const openProfile = () => {
+    useEffect(() => {
+        getUserData();
+        if (data && data.hasOwnProperty('getUser')) {
+            const { getUser } = data;
+            setUserData((oldState) => ({
+                ...oldState,
+                ...getUser
+            }));
 
+        }
+    }, [anchorEl, data, getUserData]);
+    
+    const openProfile = () => {
+        history.push({
+            pathname: `/profile/${userData.userKey}`,
+            state: { ...userData, prevPath: history.location.pathname }
+        });
     };
     const logout = () => {
         localStorage.removeItem('token');
