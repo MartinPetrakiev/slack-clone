@@ -59,11 +59,27 @@ const GET_CHANNEL_MESSAGES_QUERY = gql`
   }
 `;
 
+const GET_USER_QUERY = gql`
+  query($id: Int!) {
+    getUser(id: $id) {
+      id
+      userKey
+      username
+      email
+      teams {
+        teamKey,
+        name
+      }
+    }
+  }
+`
+
 
 export {
   GET_ALL_TEAMS_QUERY,
   GET_TEAM_QUERY,
   ALL_CHANNELS_QUERY,
   GET_CHANNEL_QUERY,
-  GET_CHANNEL_MESSAGES_QUERY
+  GET_CHANNEL_MESSAGES_QUERY,
+  GET_USER_QUERY
 };
