@@ -26,7 +26,7 @@ export default `
       }
       
       type Query {
-        getUser(id: String!): User!
+        getUser(id: Int!): User!
         allUsers: [User!]!
       }
 
