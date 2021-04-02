@@ -8,7 +8,7 @@ export default {
     Query: {
         messages: requiresAuth.createResolver(async (parent, { channelId }, { models }) =>
             models.message.findAll(
-                { order: [['created_at', 'ASC']], where: { channelId } },
+                { order: [['created_at', 'DESC']], where: { channelId } },
                 { raw: true },
             )),
     },
