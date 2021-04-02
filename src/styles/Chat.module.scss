@@ -36,12 +36,19 @@
 
     > h4 {
         display: flex;
-        /* text-transform: lowercase; */
         margin-right: 5px;
         margin-left: 0;
         margin-bottom: 0;
     }
-    p {
+    div {
+        span {
+            display: flex;
+            align-items: center;
+            svg {
+                margin-right: 1px;
+                font-size: 13px;
+            }
+        }
         font-size: 12px;
     }
 }

@@ -68,11 +68,24 @@ const CREATE_MESSAGE_MUTATION = gql`
   }
 `;
 
+const ADD_CHANNEL_TOPIC_MUTATION = gql`
+mutation($channelId: Int!, $topic: String!){
+  addTopic(channelId: $channelId, topic:$topic) {
+    ok
+    errors {
+      path
+      message
+    }
+  }
+}
+`;
+
 export {
   ADD_TEAM_MEMBER_MUTATION,
   REGISTER_MUTATION,
   LOGIN_MUTATION,
   CREATE_CHANNEL_MUTATION,
   CREAT_TEAM_MUTATION,
-  CREATE_MESSAGE_MUTATION
+  CREATE_MESSAGE_MUTATION,
+  ADD_CHANNEL_TOPIC_MUTATION
 };

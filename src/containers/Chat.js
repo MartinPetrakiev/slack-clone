@@ -54,7 +54,7 @@ function Chat({ channelKey }) {
                     <div className={styles.header}>
                         <div className={styles.header_left}>
                             <h4><strong># {channelData.channelName}</strong></h4>
-                            <p>{channelData.topic ? channelData.topic : (<AddTopicModal />)}</p>
+                            <div>{channelData.topic ? channelData.topic : (<AddTopicModal channelKey={channelKey} channelId={channelData.channelId} />)}</div>
                         </div>
                         <div className={styles.header_right}>
                             <div onClick={showDetails}>
@@ -63,7 +63,7 @@ function Chat({ channelKey }) {
                         </div>
                     </div>
                     <div className={styles.messages}>
-                        <Messages channelId={channelData.channelId}/>
+                        <Messages channelId={channelData.channelId} />
                     </div>
                     <ChatInput
                         channelName={channelData.channelName}
