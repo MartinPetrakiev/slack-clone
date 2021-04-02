@@ -29,7 +29,7 @@ function Messages({ channelId }) {
                         messages: [...prev.messages, subscriptionData.data.newChannelMessage],
                     };
                 }
-            });;
+            });
         }
         return function cleanup() {
             //unsubscirbe on component unmount

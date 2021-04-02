@@ -18,10 +18,10 @@ function Home(props) {
 
     useEffect(() => {
         const firstChannelKey = data?.getTeam.channels[0]?.channelKey;
-        if(firstChannelKey) {
+        if (firstChannelKey) {
             const params = new URLSearchParams();
             params.append('channel', firstChannelKey);
-            history.push({search: params.toString()});
+            history.push({ search: params.toString() });
         }
         setChannelKey({ channelKey: firstChannelKey });
     }, [data, history]);
@@ -37,19 +37,19 @@ function Home(props) {
         const params = new URLSearchParams();
         if (e.target.id) {
             params.append('channel', e.target.id);
-            history.push({search: params.toString()});
+            history.push({ search: params.toString() });
             setChannelKey({ channelKey: e.target.id });
         }
         if (e.target.parentNode.id) {
             params.append('channel', e.target.parentNode.id);
-            history.push({search: params.toString()});
+            history.push({ search: params.toString() });
             setChannelKey({ channelKey: e.target.parentNode.id });
         }
     };
 
     return (
         <div className="Home">
-            <Navbar/>
+            <Navbar />
             <div className="Workspace">
                 <Sidebar selectChannel={selectChannel} teamChannels={data} />
                 <Chat channelKey={channelKey.channelKey} />

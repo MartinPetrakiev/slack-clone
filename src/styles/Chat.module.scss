@@ -64,8 +64,11 @@
 .messages {
     grid-row: 2;
     position: relative;
+    display: flex;
+    flex-direction: column-reverse;
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
+    scroll-behavior: smooth;
 }
 
 .loading {

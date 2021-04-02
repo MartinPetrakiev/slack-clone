@@ -9,7 +9,6 @@ import { Icon } from 'semantic-ui-react';
 import styles from '../styles/Chat.module.scss';
 
 function Chat({ channelKey }) {
-    const chatRef = useRef(null);
     const [channelData, setChannelData] = useState({
         channelId: '',
         channelName: '',
@@ -23,9 +22,6 @@ function Chat({ channelKey }) {
     });
 
     useEffect(() => {
-        chatRef?.current?.scrollIntoView({
-            behavior: 'smooth',
-        });
         if (channelKey) {
             getChannels();
             if (data && data.hasOwnProperty('getChannel')) {
@@ -36,10 +32,9 @@ function Chat({ channelKey }) {
                     channelName: getChannel.name,
                     topic: getChannel.topic
                 }));
-
             }
         }
-    }, [channelKey, getChannels, data, chatRef]);
+    }, [channelKey, getChannels, data]);
 
     const showDetails = () => {
 
@@ -68,11 +63,9 @@ function Chat({ channelKey }) {
                         </div>
                     </div>
                     <div className={styles.messages}>
-                        <Messages channelId={channelData.channelId} />
-                        <div ref={chatRef} />
+                        <Messages channelId={channelData.channelId}/>
                     </div>
                     <ChatInput
-                        chatRef={chatRef}
                         channelName={channelData.channelName}
                         channelId={channelData.channelId}
                     />
