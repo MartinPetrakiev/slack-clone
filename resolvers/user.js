@@ -1,5 +1,6 @@
 import { tryLogin } from '../auth';
 import formatErrors from '../formatErrors';
+import requiresAuth from '../permissions';
 import { Sequelize } from 'sequelize';
 const Op = Sequelize.Op;
 
@@ -24,6 +25,21 @@ export default {
                 };
             }
         },
+        addTtitle: requiresAuth.createResolver(async (parent, args, { models, user }) => {
+            try {
+                const userData = await models.user.findOne({ where: { id: user.id } });
+                userData.title = args.title;
+                userData.save();
+                return {
+                    ok: true
+                };
+            } catch (err) {
+                return {
+                    ok: false,
+                    errors: formatErrors(err, models),
+                };
+            }
+        }),
     },
     User: {
         teams: (parent, args, { models, user }) =>
