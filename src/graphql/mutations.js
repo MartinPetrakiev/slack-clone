@@ -27,8 +27,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 const CREATE_CHANNEL_MUTATION = gql`
-mutation($teamId:Int!,$name:String!,$topic:String){
-    createChannel(teamId:$teamId,name:$name,topic:$topic){
+mutation($teamId:Int!,$name:String!,$topic:String,$admin:Boolean!){
+    createChannel(teamId:$teamId,name:$name,topic:$topic,admin:$admin){
         ok
         errors {
           path
@@ -51,8 +51,8 @@ const CREAT_TEAM_MUTATION = gql`
 `;
 
 const ADD_TEAM_MEMBER_MUTATION = gql`
-  mutation($email: String!, $teamId: Int!) {
-    addTeamMember(email: $email, teamId: $teamId) {
+  mutation($email: String!, $teamId: Int!, $admin: Boolean!) {
+    addTeamMember(email: $email, teamId: $teamId, admin: $admin) {
       ok
       errors {
         path
@@ -80,6 +80,18 @@ mutation($channelId: Int!, $topic: String!){
 }
 `;
 
+const ADD_USER_TITLE_MUTATION = gql`
+mutation($title: String!){
+  addTopic(title: $title) {
+    ok
+    errors {
+      path
+      message
+    }
+  }
+}
+`;
+
 export {
   ADD_TEAM_MEMBER_MUTATION,
   REGISTER_MUTATION,
@@ -87,5 +99,6 @@ export {
   CREATE_CHANNEL_MUTATION,
   CREAT_TEAM_MUTATION,
   CREATE_MESSAGE_MUTATION,
-  ADD_CHANNEL_TOPIC_MUTATION
+  ADD_CHANNEL_TOPIC_MUTATION,
+  ADD_USER_TITLE_MUTATION
 };

@@ -17,7 +17,11 @@ function Home(props) {
     });
 
     useEffect(() => {
-        const firstChannelKey = data?.getTeam.channels[0]?.channelKey;
+        let firstChannelKey = '';
+        if (data) {
+            firstChannelKey = [...data.getTeam.channels]
+                .sort((a, b) => Number(a.id) - Number(b.id))[0].channelKey;
+        }
         if (firstChannelKey) {
             const params = new URLSearchParams();
             params.append('channel', firstChannelKey);
@@ -31,7 +35,6 @@ function Home(props) {
         console.log([error]);
         return <p>Error :(</p>;
     };
-
 
     const selectChannel = (e) => {
         const params = new URLSearchParams();
@@ -49,7 +52,7 @@ function Home(props) {
 
     return (
         <div className="Home">
-            <Navbar />
+            <Navbar teamKey={teamKey} />
             <div className="Workspace">
                 <Sidebar selectChannel={selectChannel} teamChannels={data} />
                 <Chat channelKey={channelKey.channelKey} />

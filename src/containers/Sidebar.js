@@ -20,14 +20,16 @@ import { useHistory } from 'react-router';
 
 
 function Sidebar({ teamChannels, selectChannel }) {
-    const { name: teamName, id: teamId } = teamChannels.getTeam;
+    const { name: teamName, id: teamId, admin } = teamChannels.getTeam;
     const [expandMainOptions, setExpandMainOptions] = useState(false);
     const [expandChannels, setexpandChannels] = useState(true);
     const { data: channels, refetch } = useQuery(ALL_CHANNELS_QUERY, {
         variables: {
-            teamId: teamId
-        }
+            teamId: Number(teamId)
+        },
+        fetchPolicy: 'network-only'
     });
+
     const history = useHistory();
     const collapseHandle = (e) => {
         const currTarget = e.currentTarget.id;
@@ -114,7 +116,7 @@ function Sidebar({ teamChannels, selectChannel }) {
                                 );
                             })}
                             <div className={styles.add_channel_button}>
-                                <AddChannelModal teamId={teamId} refetch={refetch} />
+                                <AddChannelModal teamId={teamId} admin={admin} refetch={refetch} />
                             </div>
                         </div>
                     </div>)
@@ -130,6 +132,7 @@ function Sidebar({ teamChannels, selectChannel }) {
                 <div className={styles.add_member}>
                     <AddPeopleModal
                         teamId={teamId}
+                        admin={admin}
                         key="invite-people-modal"
                         refetch={refetch}
                     />

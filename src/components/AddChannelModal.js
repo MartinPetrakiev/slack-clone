@@ -3,19 +3,10 @@ import React, { useReducer, useState } from 'react';
 import { Button, Form, Header, Modal } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import { CREATE_CHANNEL_MUTATION } from '../graphql/mutations';
+import { ALL_CHANNELS_QUERY } from '../graphql/quereis';
+import reducer from './modalReducer';
 
-function reducer(state, action) {
-    switch (action.type) {
-        case 'OPEN_MODAL':
-            return { ...state, open: true };
-        case 'CLOSE_MODAL':
-            return { ...state, open: false };
-        default:
-            throw new Error();
-    }
-}
-
-function AddChannelModal({ teamId, refetch }) {
+function AddChannelModal({ teamId, admin, refetch }) {
     const [state, dispatch] = useReducer(reducer, {
         open: false
     });
@@ -32,8 +23,14 @@ function AddChannelModal({ teamId, refetch }) {
                 variables: {
                     teamId: Number(teamId),
                     name,
-                    topic
-                }
+                    topic,
+                    admin
+                },
+                refetchQueries: [{
+                    query: ALL_CHANNELS_QUERY,
+                    variables: { teamId: Number(teamId) },
+                    fetchPolicy: 'network-only'
+                }]
             });
         } catch (error) {
             console.log(error);
@@ -42,8 +39,8 @@ function AddChannelModal({ teamId, refetch }) {
         const { ok, errors } = res.data.createChannel;
         if (ok) {
             console.log('channel added');
-            refetch();
             dispatch({ type: 'CLOSE_MODAL' });
+            refetch();
         } else {
             console.log(errors);
             const err = {};
@@ -76,7 +73,7 @@ function AddChannelModal({ teamId, refetch }) {
             </Modal.Content>
             {!!errorList.length &&
                 (<p style={{ paddingLeft: '20px', color: 'red' }}>
-                   { errorList[0]}
+                    { errorList[0]}
                 </p>)}
             <Modal.Actions>
                 <Button type="button" onClick={() => dispatch({ type: 'CLOSE_MODAL' })} color="red" icon="times" content="Close" />

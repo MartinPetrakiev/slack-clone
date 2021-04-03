@@ -1,5 +1,5 @@
 import { InfoOutlined } from '@material-ui/icons';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatInput from '../components/ChatInput';
 import Messages from '../components/Messages';
 import { useLazyQuery } from '@apollo/client';

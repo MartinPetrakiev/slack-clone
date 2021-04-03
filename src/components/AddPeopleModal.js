@@ -3,19 +3,9 @@ import { PersonAdd } from '@material-ui/icons';
 import { Button, Form, Header, Modal } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import { ADD_TEAM_MEMBER_MUTATION } from '../graphql/mutations';
+import reducer from './modalReducer';
 
-function reducer(state, action) {
-    switch (action.type) {
-        case 'OPEN_MODAL':
-            return { ...state, open: true };
-        case 'CLOSE_MODAL':
-            return { ...state, open: false };
-        default:
-            throw new Error();
-    }
-}
-
-function AddPeopleModal({ teamId, refetch }) {
+function AddPeopleModal({ teamId, admin, refetch }) {
     const [state, dispatch] = useReducer(reducer, {
         open: false,
     });
@@ -29,6 +19,7 @@ function AddPeopleModal({ teamId, refetch }) {
             res = await addMember({
                 variables: {
                     teamId: Number(teamId),
+                    admin,
                     email
                 }
             });
@@ -40,7 +31,8 @@ function AddPeopleModal({ teamId, refetch }) {
             dispatch({ type: 'CLOSE_MODAL' });
             refetch();
         } else {
-            console.log([errors]);
+            //handle error optional
+            console.log(errors);
         }
     };
 

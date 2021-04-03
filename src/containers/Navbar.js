@@ -4,8 +4,15 @@ import { Input, Modal, Popup } from 'semantic-ui-react';
 import { Search } from '@material-ui/icons';
 import styles from '../styles/Navbar.module.scss';
 import decode from 'jwt-decode';
+import { useQuery } from '@apollo/client';
+import { GET_TEAM_ADMIN_QUERY } from '../graphql/quereis';
 
-function Navbar() {
+function Navbar({ teamKey }) {
+    const { data } = useQuery(GET_TEAM_ADMIN_QUERY, {
+        variables: {
+            teamKey: teamKey
+        }
+    });
     let username = '';
     let userId = '';
     try {
@@ -32,7 +39,7 @@ function Navbar() {
 
             <div className={styles.nav_right}>
                 <Popup
-                    trigger={<div><UserMenuModal userId={userId} /></div>}
+                    trigger={<div><UserMenuModal userId={userId} teamData={data.getTeam} /></div>}
                     content={username}
                     position='bottom right'
                     style={{
@@ -46,6 +53,6 @@ function Navbar() {
             </div>
         </div >
     );
-}
+};
 
 export default Navbar;

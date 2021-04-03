@@ -1,11 +1,22 @@
 import { useQuery } from '@apollo/client';
-import { GET_ALL_TEAMS_QUERY } from '../graphql/quereis';
+import { GET_USER_TEAMS_QUERY } from '../graphql/quereis';
 import React from 'react';
 import { Button, Icon } from 'semantic-ui-react';
 import styles from '../styles/TeamSelect.module.scss';
+import decode from 'jwt-decode';
 
 function TeamSelect(props) {
-    const { loading, error, data, refetch } = useQuery(GET_ALL_TEAMS_QUERY);
+    let userId = '';
+    try {
+        const token = localStorage.getItem('token');
+        const { user } = decode(token);
+        userId = user.id;
+    } catch (error) { }
+    const { loading, error, data, refetch } = useQuery(GET_USER_TEAMS_QUERY,{
+        variables: {
+            id: userId
+        }
+    });
     if (loading) return (
         <div className={styles.container}>
             <div className={styles.icon}>
@@ -15,7 +26,7 @@ function TeamSelect(props) {
     );
 
     if (error) {
-        console.log(error);
+        console.log([error]);
     };
 
     if(props.location.state?.refetch) {
@@ -32,11 +43,10 @@ function TeamSelect(props) {
     const createTeam = () => {
         props.history.push("/create-team");
     };
-
     return (
         <div className={styles.container}>
-            {data.allTeams.length ?
-                (data.allTeams?.map(x => (
+            {data.getUser?.teams.length ?
+                (data.getUser?.teams.map(x => (
                     <div key={x.teamKey} id={x.teamKey} className={styles.item}>
                         <div className={styles.content}>
                             {x.name}

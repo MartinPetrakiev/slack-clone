@@ -2,16 +2,12 @@ import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import styles from '../styles/Profile.module.scss';
 import { useHistory } from 'react-router';
+import AddUserTitleModal from '../components/AddUserTitleModal';
 
 
 function Profile(props) {
     const passedState = props.location.state;
-    const [userData, setUserData] = useState({
-        userKey: passedState.userKey,
-        username: passedState.username,
-        email: passedState.email,
-        teams: passedState.teams,
-    });
+    const [userData, setUserData] = useState({ ...passedState });
     const history = useHistory();
 
     const goBack = () => {
@@ -22,11 +18,16 @@ function Profile(props) {
             <div className={styles.inner_container}>
                 <img src='https://cdn.imgbin.com/14/8/7/imgbin-avatar-user-computer-icons-software-developer-avatar-cHpTC4i4gTx3YyY9YUPpaPJGi.jpg' alt="" />
                 <h1>{userData.username}</h1>
-                <h3>{null || 'Add title'}</h3>
-                <p>Email adresss: {userData.email}</p>
-                <div>
+                <h3>{userData.title || <AddUserTitleModal userId={userData.id} />}</h3>
+                {userData.admin && (<span>Owner of {userData.currentTeam}</span>)}
+                <hr />
+                <p>Email adresss: <span>{userData.email}</span></p>
+                <hr />
+                <div className={styles.teams_list}>
                     Your teams:
-                        {userData.teams.map(x => (<p key={x.teanKey}>{x.name}</p>))}
+                    <ul>
+                        {userData.teams && userData.teams?.map(x => (<li key={x.teamKey}>{x.name}</li>))}
+                    </ul>
                 </div>
                 <div>
                     <Button onClick={goBack}>Return</Button>
