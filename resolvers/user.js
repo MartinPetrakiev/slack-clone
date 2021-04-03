@@ -27,15 +27,17 @@ export default {
                 };
             }
         },
-        addTtitle: requiresAuth.createResolver(async (parent, args, { models, user }) => {
+        addTitle: requiresAuth.createResolver(async (parent, args, { models, user }) => {
             try {
-                const userData = await models.user.findOne({ where: { id: user.id } });
+                const userData = await models.user.findOne({ where: { id: user.id } }); 
                 userData.title = args.title;
-                userData.save();
+                await userData.save();
                 return {
-                    ok: true
+                    ok: true,
+                    title: args.title
                 };
             } catch (err) {
+                console.log(err);
                 return {
                     ok: false,
                     errors: formatErrors(err, models),
@@ -45,15 +47,20 @@ export default {
     },
     User: {
         teams: async (parent, args, { models, user }) => {
-            const promise = await sequelize.query(
-                'select * from teams as team join members as member on team.id = member.team_id where member.user_id = ?',
-                {
-                    replacements: [user.id],
-                    model: models.team,
-                },
-            );
-            promise[0].dataValues.teamKey = promise[0].dataValues.team_key;
-            return promise;
+            try {
+                const promise = await sequelize.query(
+                    'select * from teams as team join members as member on team.id = member.team_id where member.user_id = ?',
+                    {
+                        replacements: [user.id],
+                        model: models.team,
+                    },
+                );
+                promise[0].dataValues.teamKey = promise[0].dataValues.team_key;
+                return promise;
+            } catch (error) {
+                console.log(error);
+            }
+
         }
 
     },
