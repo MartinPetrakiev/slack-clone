@@ -49,7 +49,6 @@ const Login = observer((props) => {
                     });
                 }))(formState);
             }
-            console.log(res);
         } catch (error) {
             console.log(error);
         }
