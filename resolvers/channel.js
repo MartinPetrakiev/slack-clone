@@ -4,26 +4,24 @@ import requiresAuth from '../permissions';
 export default {
   Query: {
     allChannels: requiresAuth.createResolver(async (parent, args, { models }) =>
-      models.channel.findAll({order: [['id', 'ASC']], where: { teamId: args.teamId } }, { raw: true })),
+      models.channel.findAll({ order: [['id', 'ASC']], where: { teamId: args.teamId } }, { raw: true })),
     getChannel: async (parent, args, { models }) =>
       models.channel.findOne({ where: { channelKey: args.channelKey } }, { raw: true }),
   },
   Mutation: {
     createChannel: requiresAuth.createResolver(async (parent, args, { models, user }) => {
       try {
-        const team = await models.team.findOne({ where: { id: args.teamId } }, { raw: true });
-        if (team.owner !== user.id) {
+        if (!args.admin) {
           return {
             ok: false,
             errors: [
               {
                 path: 'name',
-                message: 'You have to be the owner of the team to create channels',
+                message: 'You don\'t have administrator privilages',
               },
             ],
           };
         }
-
         const channel = await models.channel.create(args);
         return {
           ok: true,

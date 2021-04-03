@@ -2,11 +2,13 @@ import { tryLogin } from '../auth';
 import formatErrors from '../formatErrors';
 import requiresAuth from '../permissions';
 import { Sequelize } from 'sequelize';
+import sequelize from '../models/index';
 const Op = Sequelize.Op;
 
 export default {
     Query: {
-        getUser: (parent, { id }, { models }) => models.user.findOne({ where: { id } }),
+        getUser: (parent, args, { models, user }) =>
+            models.user.findOne({ where: { id: user.id } }),
         allUsers: (parent, args, { models }) => models.user.findAll(),
     },
     Mutation: {
@@ -42,13 +44,18 @@ export default {
         }),
     },
     User: {
-        teams: (parent, args, { models, user }) =>
-            models.team.findAll({
-                where: {
-                    [Op.or]: [{ owner: user.id, }, { "$users.id$": user.id, },],
+        teams: async (parent, args, { models, user }) => {
+            const promise = await sequelize.query(
+                'select * from teams as team join members as member on team.id = member.team_id where member.user_id = ?',
+                {
+                    replacements: [user.id],
+                    model: models.team,
                 },
-                include: [{ model: models.user, },],
-            })
-    }
+            );
+            promise[0].dataValues.teamKey = promise[0].dataValues.team_key;
+            return promise;
+        }
+
+    },
 
 };

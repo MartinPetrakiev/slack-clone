@@ -60,7 +60,7 @@ const server = new ApolloServer({
   schema,
   subscriptions: {
     path: '/subscriptions',
-    onConnect: async (connectionParams, webSocket) => {
+    onConnect: async ({ token, refreshToken }, webSocket) => {
       if (token && refreshToken) {
         let user = null;
         try {

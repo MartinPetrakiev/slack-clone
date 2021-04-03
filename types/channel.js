@@ -16,12 +16,12 @@ export default `
       }
 
     type Query {
-        allChannels(teamId: String!): [Channel!]!
+        allChannels(teamId: Int!): [Channel!]!
         getChannel(channelKey: String!): Channel!
     }
 
     type Mutation {
-        createChannel(teamId: Int!, name: String!, topic: String, public: Boolean): ChannelResponse!
+        createChannel(teamId: Int!, name: String!, topic: String,admin: Boolean!, public: Boolean): ChannelResponse!
         addTopic(channelId: Int!, topic: String!): ChannelResponse!
     }
 

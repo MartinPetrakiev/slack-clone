@@ -1,11 +1,12 @@
 export default `
     type Team {
       id: ID!
-      teamKey: String!
+      teamKey: String
       name: String!
       owner: User!
       members: [User!]
       channels: [Channel!]
+      admin: Boolean!
      }
 
      type CreateTeamResponse {
@@ -15,7 +16,6 @@ export default `
     }
 
     type Query {
-        allTeams: [Team!]!
         inviteTeams: [Team!]!
         getTeam(teamKey: String!): Team!
     }
@@ -27,6 +27,6 @@ export default `
 
      type Mutation {
        createTeam(name: String!): CreateTeamResponse!
-       addTeamMember(email: String!, teamId: Int!): VoidResponse!
+       addTeamMember(email: String!, teamId: Int! admin: Boolean!): VoidResponse!
      }
 `;

@@ -24,7 +24,6 @@ export default {
     },
     Mutation: {
         createMessage: async (parent, args, { models, user }) => {
-            console.log(user);
             try {
                 const message = await models.message.create({
                     ...args,

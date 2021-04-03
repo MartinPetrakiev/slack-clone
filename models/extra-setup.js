@@ -22,9 +22,9 @@ function applyExtraSetup(sequelize) {
 			field: 'team_id',
 		},
 	});
-	team.belongsTo(user, {
-		foreignKey: 'owner',
-	});
+	// team.belongsTo(user, {
+	// 	foreignKey: 'owner',
+	// });
 	message.belongsTo(channel, {
 		foreignKey: {
 			name: 'channelId',
