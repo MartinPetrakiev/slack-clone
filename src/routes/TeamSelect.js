@@ -12,7 +12,7 @@ function TeamSelect(props) {
         const { user } = decode(token);
         userId = user.id;
     } catch (error) { }
-    const { loading, error, data, refetch } = useQuery(GET_USER_TEAMS_QUERY,{
+    const { loading, data, refetch } = useQuery(GET_USER_TEAMS_QUERY,{
         variables: {
             id: userId
         }
@@ -24,11 +24,7 @@ function TeamSelect(props) {
             </div>
         </div>
     );
-
-    if (error) {
-        console.log([error]);
-    };
-
+    
     if(props.location.state?.refetch) {
         refetch();
     } 
@@ -45,7 +41,7 @@ function TeamSelect(props) {
     };
     return (
         <div className={styles.container}>
-            {data.getUser?.teams.length ?
+            {data?.getUser?.teams.length ?
                 (data.getUser?.teams.map(x => (
                     <div key={x.teamKey} id={x.teamKey} className={styles.item}>
                         <div className={styles.content}>

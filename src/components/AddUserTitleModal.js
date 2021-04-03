@@ -3,10 +3,9 @@ import { AssignmentInd } from '@material-ui/icons';
 import { Button, Form, Header, Modal } from 'semantic-ui-react';
 import { useMutation } from '@apollo/client';
 import { ADD_USER_TITLE_MUTATION } from '../graphql/mutations';
-import { GET_USER_QUERY } from '../graphql/quereis';
 import reducer from './modalReducer';
 
-function AddUserTitleModal({userId}) {
+function AddUserTitleModal({ setUserData }) {
     const [state, dispatch] = useReducer(reducer, {
         open: false,
     });
@@ -15,23 +14,23 @@ function AddUserTitleModal({userId}) {
     const addTitle = async (e) => {
         e.preventDefault();
         const title = e.target.title.value;
+
         let res;
         try {
             res = await addUserTitle({
                 variables: {
                     title
                 },
-                refetchQueries: [{
-                    query: GET_USER_QUERY,
-                    variables: { userId }
-                }]
             });
         } catch (error) {
             console.log([error]);
         }
-        const { ok, errors } = res.data.addUserTitle;
+        const { ok, title: titleName, errors } = res.data.addTitle;
         if (ok) {
             dispatch({ type: 'CLOSE_MODAL' });
+            setUserData((oldState) => {
+                return { ...oldState, title: titleName }
+            })
         } else {
             console.log([errors]);
         }

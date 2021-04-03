@@ -24,7 +24,7 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-function UserMenuModal({userId, teamData}) {
+function UserMenuModal({ userId, teamData }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [getUserData, { data }] = useLazyQuery(GET_USER_QUERY, {
         variables: {
@@ -39,7 +39,7 @@ function UserMenuModal({userId, teamData}) {
         email: '',
         teams: '',
         admin: teamData.admin,
-        currentTeam: teamData.name
+        currentTeam: teamData.name,
     });
     const history = useHistory();
     const handleClick = (event) => {
@@ -57,7 +57,7 @@ function UserMenuModal({userId, teamData}) {
 
         }
     }, [anchorEl, data, getUserData, teamData]);
-    
+
     const openProfile = () => {
         history.push({
             pathname: `/profile/${userData.userKey}`,

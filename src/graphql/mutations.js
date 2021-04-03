@@ -82,8 +82,9 @@ mutation($channelId: Int!, $topic: String!){
 
 const ADD_USER_TITLE_MUTATION = gql`
 mutation($title: String!){
-  addTopic(title: $title) {
+  addTitle(title: $title) {
     ok
+    title
     errors {
       path
       message
