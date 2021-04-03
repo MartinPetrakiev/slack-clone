@@ -4,6 +4,7 @@ export default `
         userKey: String!
         username: String!
         email: String!
+        title: String
         teams: [Team!]!
       }
 
@@ -24,7 +25,11 @@ export default `
         refreshToken: String
         errors: [Error!]
       }
-      
+      type UpdateUserResponse {
+        ok: Boolean!
+        errors: [Error!]
+      }
+
       type Query {
         getUser(id: Int!): User!
         allUsers: [User!]!
@@ -33,6 +38,7 @@ export default `
       type Mutation {
         register(username: String!, email: String!, password: String!): RegisterResponse!
         login(email: String!, password: String!): LoginResponse!
+        addTtitle(title: String!): UpdateUserResponse!
       }
 `;
 

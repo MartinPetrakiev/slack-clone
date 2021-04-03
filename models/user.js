@@ -23,6 +23,9 @@ export function User(sequelize) {
                 }
             }
         },
+        title: {
+            type: DataTypes.STRING,
+        },
         email: {
             type: DataTypes.STRING,
             unique: true,
