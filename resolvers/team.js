@@ -70,8 +70,11 @@ export default {
         channels: ({ id }, args, { models }) => models.channel.findAll({ where: { teamId: id } }),
         admin: async ({ id }, args, { models, user }) => {
             try {
-                const admin = await models.member.findAll({ where: { userId: user.id, teamId: id } });
-                return true;
+                const [member] = await models.member.findAll({ where: { userId: user.id, teamId: id } });
+                if(member.dataValues.admin){
+                    return true;
+                }
+                return false;
             } catch (error) {
                 console.log([error]);
                 return false;
