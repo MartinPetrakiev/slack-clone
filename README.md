@@ -13,6 +13,10 @@ Slack-Clone is SPA meant to mimic original Slack communication platform features
 For database the application uses PostgreSQL. 
 Before running in development mode install PostgreSQL for appropriate OS [link](https://www.postgresql.org/download/).
 
+Database schema:
+
+<img src="./DB-Schema.jpg" width="400px" /><br>
+
 **Server**
 
 The server runs on Node.js + Express and a Sequelize instance is used to create models for database.
@@ -116,3 +120,7 @@ Example on how to use can be found on Apollo Client [docs](https://www.apollogra
 3. `containers` contains the components that build our main page of the application `Home` or the client chat.
 4. `components` contains all additional components - presentational, modals, popups, which build the client app logic, UI and feature functionality.
 5. `styles` contains all component styles module files
+
+# Contributing
+
+-Martin Petrakiev
