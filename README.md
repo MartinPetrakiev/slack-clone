@@ -68,9 +68,13 @@ To drop the database on every server start we just pass parameters {force: true}
  await sequelize.sync({force: true);
 ```
 
+
 Run **`npm install`** or **`yarn install`** and then **`npm start`** or **`yarn start`** from inside the [api folder](https://github.com/MartinPetrakiev/Slack-Clone--SoftUni/tree/main/server). The server will start on `localhost:8080/graphql`.
 
+
+
 **Client**
+
 For client side I use React Library.
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 To learn React, check out the [React documentation](https://reactjs.org/).
@@ -78,6 +82,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 To fetch data from back-end I use Apollo Client which is connected to Apollo Server. [docs](https://www.apollographql.com/docs/react/)
 We first create client instace where we apply server url and additional middlewares. [Client setup](https://github.com/MartinPetrakiev/Slack-Clone--SoftUni/blob/main/client/src/apollo.js)
 Тhen we attach our client to React by wrapping `App` component with `ApolloProvider` and passing client as prop.
+
 Example:
 ```js
 import React from 'react';
@@ -97,6 +102,7 @@ function App() {
 
 render(<App />, document.getElementById('root'));
 ```
+
 The `ApolloProvide` is similar to React's `Context.Provider`. It wraps your React app and places the client on the context, which enables you to access it from anywhere in your component tree.
 
 To fetch data and make changes to the database in the client we use Apollo Client hooks:
