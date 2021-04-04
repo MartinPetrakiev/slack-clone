@@ -43,12 +43,14 @@ More example code of how to setup Sequelize with Express can be found on [this r
 
 Between back-end and client I use GraphQL to control data. 
 For this I use Apollo Server to setup schema types, resolvers and apply middlewares from express app. [Apollo Server docs](https://www.apollographql.com/docs/apollo-server/)
+
 An instace of Appolo Server is made in [this file](https://github.com/MartinPetrakiev/Slack-Clone--SoftUni/blob/main/server/index.js) line 59.
 There we pass our schema, create path for subscriptions, secure subscription connection and finally pass context to the server.
 ```js
 server.installSubscriptionHandlers(httpServer);
 ```
 This installs subscriptions handlers on the server and allows usage over ws://localhost:8080/subscriptions
+
 Finally we initialize the server with this:
 ```js
 
@@ -63,6 +65,7 @@ async function init() {
   });
 }
 ```
+
 To build our tables and sync our database we use this:
 ```
  await sequelize.sync();
