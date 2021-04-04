@@ -124,6 +124,9 @@ Example on how to use can be found on Apollo Client [docs](https://www.apollogra
 4. `components` contains all additional components - presentational, modals, popups, which build the client app logic, UI and feature functionality.
 5. `styles` contains all component styles module files
 
+
+Run **`npm install`** or **`yarn install`** and then **`npm start`** or **`yarn start`** from inside the [client folder](https://github.com/MartinPetrakiev/Slack-Clone--SoftUni/tree/main/client). The client will start on `localhost:3000/`.
+
 # Contributing
 
 -Martin Petrakiev
