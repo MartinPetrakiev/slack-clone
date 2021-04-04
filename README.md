@@ -2,6 +2,10 @@
  
 Slack-Clone is SPA meant to mimic original Slack communication platform features.
 
+# Architecture
+
+<img src="./App-Architecture.jpg" width="400px" /><br>
+
 # Set up and usage
 
 **Database**
