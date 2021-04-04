@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+    padding: 8px 20px;
+
+    &:hover {
+        background-color: whitesmoke;
+    }
+    
+}

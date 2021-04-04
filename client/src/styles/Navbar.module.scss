@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    height: 38px;
+    background-color: var(--slack-color);
+    color: white;
+}
+
+
+.nav_left {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: inherit;
+        color: white;
+        background-color:rgb(67,30,68);
+        border: 1px solid rgb(104, 74, 104);
+        border-radius: 4px;
+        width: 320px;
+        height: 24px;
+        cursor: pointer;
+        &:hover {
+            background-color: rgb(73,37,74);
+            border: 1px solid rgb(154, 134, 155);
+            outline: none;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.nav_right {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 16px 0 32px;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.nav_search {
+    input {
+        height: 50px;
+    }
+}
+
+
+

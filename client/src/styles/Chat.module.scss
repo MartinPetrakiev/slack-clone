@@ -1,0 +1,88 @@
+.container {
+    display: grid;
+    grid-column-start: 2;
+    grid-template-areas:
+    "header"
+    "messages"
+    "input";
+    grid-template-rows: 64px auto 73px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    &::-webkit-scrollbar {
+     width: 8px;
+     background-color: lightgray;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--slack-color);
+    }
+}
+
+.header {
+    position: fixed;
+    height: 64px;
+    grid-row: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid lightgray;
+    background-color: white;
+}
+
+.header_left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > h4 {
+        display: flex;
+        margin-right: 5px;
+        margin-left: 0;
+        margin-bottom: 0;
+    }
+    div {
+        span {
+            display: flex;
+            align-items: center;
+            svg {
+                margin-right: 1px;
+                font-size: 13px;
+            }
+        }
+        font-size: 12px;
+    }
+}
+
+.header_right {
+    position: fixed;
+    right: 20px;
+    > p {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+    }
+
+    > p > .MuiSvgIcon-root {
+        margin-right: 5px !important;
+        font-size: 16px;
+    }
+}
+
+.messages {
+    grid-row: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column-reverse;
+    align-self: end;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}

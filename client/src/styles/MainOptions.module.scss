@@ -1,0 +1,21 @@
+.main_options {
+    // padding: 0 16px 0 10px;
+    div {
+        cursor: pointer;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        padding: 0 16px 0 10px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        svg {
+            font-size: 18px;
+            width: 26px;
+        }
+    }
+    div:hover {
+        opacity: 0.9;
+        background-color: #350D36;
+    }
+}
