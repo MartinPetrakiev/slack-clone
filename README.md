@@ -12,6 +12,7 @@ Slack-Clone is SPA meant to mimic original Slack communication platform features
 
 For database the application uses PostgreSQL. 
 Before running in development mode install PostgreSQL for appropriate OS [link](https://www.postgresql.org/download/).
+After installation create a database named `slack`. [instructions](https://www.guru99.com/postgresql-create-database.html)
 
 Database schema:
 
@@ -21,7 +22,7 @@ Database schema:
 
 The server runs on Node.js + Express and a Sequelize instance is used to create models for database.
 
-This code snippet setups the Sequelize instance.
+This code snippet setups the Sequelize instance which is used to define tables and associations for the database.
 ```js
 import Sequelize from 'sequelize';
 
