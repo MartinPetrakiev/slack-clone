@@ -35,7 +35,7 @@ const sequelize = new Sequelize('slack', 'postgres', password, {
 
 export default sequelize;
 ```
-
+All models are defined with this instance in seperate files located in folder `models` [here](https://github.com/MartinPetrakiev/Slack-Clone--SoftUni/tree/main/server/models)
 Extra setup and model associations are made in extra-setup.js [file](https://github.com/MartinPetrakiev/Slack-Clone--SoftUni/blob/main/server/models/extra-setup.js)
 which are applied before exporting sequlize instance.
 
