@@ -4,7 +4,6 @@ import { ALL_CHANNELS_QUERY } from '../graphql/quereis';
 import MainOptions from '../components/MainOptions';
 import AddChannelModal from '../components/AddChannelModal';
 import AddPeopleModal from '../components/AddPeopleModal';
-// import { loadCalendar } from '../googleCalendar';
 import { Popup } from 'semantic-ui-react';
 import {
     ArrowDropDownRounded,
@@ -137,7 +136,6 @@ function Sidebar({ teamChannels, selectChannel }) {
                         refetch={refetch}
                     />
                 </div>
-                {/* <button onClick={loadCalendar}>Calendar</button> */}
             </div>
         </div>
     );
