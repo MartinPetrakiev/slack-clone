@@ -12,7 +12,6 @@ function AddChannelModal({ teamId, admin, refetch }) {
     });
     const [errorsState, setErrors] = useState({});
     const [createChannel] = useMutation(CREATE_CHANNEL_MUTATION);
-    const { open } = state;
     const addChannel = async (e) => {
         e.preventDefault();
         const name = e.target.channelName.value;
@@ -59,7 +58,7 @@ function AddChannelModal({ teamId, admin, refetch }) {
     return (
         <Modal
             as={Form}
-            open={open}
+            open={state.open}
             onOpen={() => dispatch({ type: 'OPEN_MODAL' })}
             onClose={() => dispatch({ type: 'CLOSE_MODAL' })}
             trigger={<span><AddBox />Add channel</span>}

@@ -1,5 +1,7 @@
 import formatErrors from '../formatErrors';
 import requiresAuth from '../permissions';
+import { Sequelize } from 'sequelize';
+const Op = Sequelize.Op;
 
 export default {
   Query: {
@@ -7,6 +9,8 @@ export default {
       models.channel.findAll({ order: [['id', 'ASC']], where: { teamId: args.teamId } }, { raw: true })),
     getChannel: async (parent, args, { models }) =>
       models.channel.findOne({ where: { channelKey: args.channelKey } }, { raw: true }),
+    findChannels: async (parent, args, { models }) =>
+      models.channel.findAll({ where: { name: { [Op.like]: '%' + args.name + '%' }, teamId: args.teamId } }, { raw: true }),
   },
   Mutation: {
     createChannel: requiresAuth.createResolver(async (parent, args, { models, user }) => {

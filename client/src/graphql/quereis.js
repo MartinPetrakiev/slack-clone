@@ -88,7 +88,7 @@ const GET_USER_QUERY = gql`
       }
     }
   }
-`
+`;
 
 
 const GET_USER_TEAMS_QUERY = gql`
@@ -101,7 +101,18 @@ const GET_USER_TEAMS_QUERY = gql`
       }
     }
   }
-`
+`;
+
+const FIND_CHANNELS_QUERY = gql`
+query($name:String!, $teamId: Int!){
+  findChannels(name:$name, teamId:$teamId) {
+      id
+      channelKey
+       name
+       topic
+  }
+}
+`;
 
 
 export {
@@ -112,5 +123,6 @@ export {
   GET_CHANNEL_MESSAGES_QUERY,
   GET_USER_QUERY,
   GET_USER_TEAMS_QUERY,
-  GET_TEAM_ADMIN_QUERY
+  GET_TEAM_ADMIN_QUERY,
+  FIND_CHANNELS_QUERY
 };

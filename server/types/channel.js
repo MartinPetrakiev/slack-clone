@@ -18,6 +18,7 @@ export default `
     type Query {
         allChannels(teamId: Int!): [Channel!]!
         getChannel(channelKey: String!): Channel!
+        findChannels(name: String!, teamId: Int!): [Channel]!
     }
 
     type Mutation {

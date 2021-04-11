@@ -1,8 +1,8 @@
 import formatErrors from '../formatErrors';
 import requiresAuth from '../permissions';
 import sequelize from '../models/index';
-import { Sequelize } from 'sequelize';
-const Op = Sequelize.Op;
+// import { Sequelize } from 'sequelize';
+// const Op = Sequelize.Op;
 export default {
     Query: {
         // allTeams: requiresAuth.createResolver(async (parent, args, { models, user }) =>

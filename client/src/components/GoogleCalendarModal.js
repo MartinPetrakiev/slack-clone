@@ -74,7 +74,7 @@ function CreateCalednarEvent({ open }) {
             open={state.open}
             onOpen={() => dispatch({ type: 'OPEN_MODAL' })}
             onClose={() => dispatch({ type: 'CLOSE_MODAL' })}
-            trigger={<span>Schedule and event</span>}
+            trigger={<span>Schedule an event</span>}
             onSubmit={e => addEvent(e)}
             size="tiny"
         >

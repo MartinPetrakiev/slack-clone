@@ -52,7 +52,7 @@ function Home(props) {
 
     return (
         <div className="Home">
-            <Navbar teamKey={teamKey} />
+            <Navbar teamKey={teamKey} teamId={data.getTeam.id} selectChannel={selectChannel}/>
             <div className="Workspace">
                 <Sidebar selectChannel={selectChannel} teamChannels={data} />
                 <Chat channelKey={channelKey.channelKey} />
